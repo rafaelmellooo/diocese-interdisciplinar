@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "diocese-interdisciplinar",
-    "slug": "diocese-interdisciplinar",
+    "name": "Diocese de Santos",
+    "slug": "diocesedesantos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ]
   }
 }
