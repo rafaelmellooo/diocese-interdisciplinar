@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Diocese de Santos",
-    "slug": "diocesedesantos",
+    "slug": "diocese",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
