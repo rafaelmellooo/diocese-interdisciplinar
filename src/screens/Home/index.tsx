@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Chapel } from '../../interfaces/Chapel';
 import ChapelPreview from '../../components/ChapelPreview';
-import { findChapels } from '../../services/diocese.api';
+import { findChapels } from '../../services/diocesedesantos.api';
 import { styles } from './styles';
 
 const markers: Record<string, ImageRequireSource> = {

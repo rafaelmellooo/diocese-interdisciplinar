@@ -1,9 +1,11 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { styles } from "./styles";
+import { RootStackParamList } from '../../navigation';
 
 type ChapelPreviewProps = {
     name: string;
@@ -12,31 +14,16 @@ type ChapelPreviewProps = {
 }
 
 export default function ChapelPreview(props: ChapelPreviewProps) {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
+
     const dimensions = useWindowDimensions();
 
-    const handleScheduleButtonPress = async () => {
-        const schedules = await AsyncStorage.getItem('schedules');
-
-        if (schedules) {
-            await AsyncStorage.setItem('schedules', JSON.stringify([
-                ...JSON.parse(schedules),
-                {
-                    name: props.name,
-                    info: props.info,
-                    distance: props.distance
-                }
-            ]));
-
-            return;
-        }
-
-        await AsyncStorage.setItem('schedules', JSON.stringify([
-            {
-                name: props.name,
-                info: props.info,
-                distance: props.distance
-            }
-        ]));
+    const handleScheduleButtonPress = () => {
+        navigation.navigate('NewSchedule', {
+            name: props.name,
+            info: props.info,
+            distance: props.distance
+        });
     }
 
     return (

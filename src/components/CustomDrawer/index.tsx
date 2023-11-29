@@ -3,6 +3,7 @@ import { Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer';
+import { styles } from './styles';
 
 type CustomDrawerProps = DrawerContentComponentProps;
 
@@ -17,30 +18,13 @@ export default function CustomDrawer(props: CustomDrawerProps) {
                 paddingTop: insets.top,
                 backgroundColor: '#0D2744'
             }}>
-                <Text style={{
-                    color: '#F5F3F3',
-                    fontWeight: 'bold',
-                    fontSize: 20,
-                    padding: 20
-                }}>Diocese de Santos</Text>
+                <Text style={styles.headerText}>Diocese de Santos</Text>
             </View>
 
             <DrawerItemList {...props} />
 
-            <View style={{
-                borderTopColor: '#CCD5E0',
-                borderTopWidth: 1,
-                marginTop: 20,
-                paddingTop: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingHorizontal: 20
-            }}>
-                <Text style={{
-                    color: '#0D2744',
-                    fontWeight: 'bold',
-                    fontSize: 16
-                }}>Modo Escuro</Text>
+            <View style={styles.darkModeContainer}>
+                <Text style={styles.darkModeText}>Modo Escuro</Text>
 
                 <Switch
                     trackColor={{
