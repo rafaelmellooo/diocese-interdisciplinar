@@ -20,14 +20,6 @@ export default function Schedules() {
         setSchedules(JSON.parse(schedules));
     };
 
-    if (!schedules) {
-        return (
-            <View>
-                <Text>Waiting for schedules...</Text>
-            </View>
-        );
-    }
-
     return (
         <View>
             {
