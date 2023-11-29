@@ -13,7 +13,7 @@ type GetVerseResponse = {
     text: string;
 }
 
-const getVerse = async () => {
+export async function getRandomVerse() {
     const response = await api.get<GetVerseResponse>('/api/verses/acf/random');
 
     return response.data;

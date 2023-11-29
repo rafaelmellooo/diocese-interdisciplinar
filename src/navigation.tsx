@@ -9,6 +9,7 @@ import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomDrawer from './components/CustomDrawer';
 import NewSchedule from './screens/NewSchedule';
+import DailyVerse from './screens/DailyVerse';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -20,6 +21,7 @@ export type RootStackParamList = {
     info: string;
     distance: string;
   };
+  DailyVerse: undefined;
 };
 
 function DrawerNavigator() {
@@ -73,6 +75,7 @@ function DrawerNavigator() {
           )
         }}
       />
+
       <Drawer.Screen
         name="Schedules"
         component={Schedules}
@@ -92,7 +95,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName='DailyVerse'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'
@@ -117,6 +120,14 @@ export default function RootStackNavigator() {
           component={NewSchedule}
           options={{
             title: 'Novo Agendamento',
+          }}
+        />
+
+        <Stack.Screen
+          name="DailyVerse"
+          component={DailyVerse}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
