@@ -12,7 +12,7 @@ export default function Schedules() {
 
     const loadSchedules = async () => {
         const schedules = await AsyncStorage.getItem('schedules');
-        console.log(schedules);
+        // console.log(schedules);
 
         if (!schedules) {
             return;

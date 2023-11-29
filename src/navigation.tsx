@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useTheme } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerToggleButton } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons'
@@ -10,6 +10,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomDrawer from './components/CustomDrawer';
 import NewSchedule from './screens/NewSchedule';
 import DailyVerse from './screens/DailyVerse';
+import { useThemeStorage } from './ThemeStorageContext';
+import { DarkTheme } from './themes/DarkTheme';
+import { DefaultTheme } from './themes/DefaultTheme';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -25,6 +28,8 @@ export type RootStackParamList = {
 };
 
 function DrawerNavigator() {
+  const { colors } = useTheme();
+
   const insets = useSafeAreaInsets();
 
   return (
@@ -59,7 +64,7 @@ function DrawerNavigator() {
           fontWeight: 'bold',
         },
         drawerLabelStyle: {
-          color: '#0D2744',
+          color: colors.text,
           fontWeight: 'bold',
         }
       }}
@@ -71,7 +76,7 @@ function DrawerNavigator() {
           title: 'Localizar Missas',
           drawerLabel: 'Missas',
           drawerIcon: (props) => (
-            <Ionicons name='time' color='#0D2744' size={props.size} />
+            <Ionicons name='time' color={colors.text} size={props.size} />
           )
         }}
       />
@@ -83,7 +88,7 @@ function DrawerNavigator() {
           title: 'Meus Agendamentos',
           drawerLabel: 'Agendamentos',
           drawerIcon: (props) => (
-            <Ionicons name='calendar' color='#0D2744' size={props.size} />
+            <Ionicons name='calendar' color={colors.text} size={props.size} />
           )
         }}
       />
@@ -92,10 +97,12 @@ function DrawerNavigator() {
 }
 
 export default function RootStackNavigator() {
+  const { theme } = useThemeStorage();
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='DailyVerse'
+        initialRouteName='Home'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'

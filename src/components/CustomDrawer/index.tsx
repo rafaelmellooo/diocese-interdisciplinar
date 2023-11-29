@@ -1,19 +1,25 @@
 import React from 'react';
 import { Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useState } from 'react';
 import { DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer';
 import { styles } from './styles';
+import { useThemeStorage } from '../../ThemeStorageContext';
+import { useTheme } from '@react-navigation/native';
 
 type CustomDrawerProps = DrawerContentComponentProps;
 
 export default function CustomDrawer(props: CustomDrawerProps) {
-    const [isDark, setIsDark] = useState(false);
+    const { theme, toggleTheme } = useThemeStorage();
+
+    const { colors } = useTheme();
 
     const insets = useSafeAreaInsets();
 
     return (
-        <View>
+        <View style={{
+            flex: 1,
+            backgroundColor: colors.background
+        }}>
             <View style={{
                 paddingTop: insets.top,
                 backgroundColor: '#0D2744'
@@ -24,16 +30,18 @@ export default function CustomDrawer(props: CustomDrawerProps) {
             <DrawerItemList {...props} />
 
             <View style={styles.darkModeContainer}>
-                <Text style={styles.darkModeText}>Modo Escuro</Text>
+                <Text style={[styles.darkModeText, {
+                    color: colors.text
+                }]}>Modo Escuro</Text>
 
                 <Switch
                     trackColor={{
                         true: '#0A1D33',
                         false: '#F5F3F3'
                     }}
-                    thumbColor={isDark ? '#F5F3F3' : '#0D2744'}
-                    onValueChange={() => setIsDark(!isDark)}
-                    value={isDark}
+                    thumbColor={theme === 'dark' ? '#F5F3F3' : '#0D2744'}
+                    onValueChange={() => toggleTheme(theme === 'dark' ? 'light' : 'dark')}
+                    value={theme === 'dark'}
                 />
             </View>
         </View>

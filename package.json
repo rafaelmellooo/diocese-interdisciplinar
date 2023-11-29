@@ -28,7 +28,8 @@
     "react-native-reanimated": "~3.3.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "@react-native-picker/picker": "2.4.10"
+    "@react-native-picker/picker": "2.4.10",
+    "expo-system-ui": "~2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
