@@ -102,7 +102,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName='DailyVerse'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'
