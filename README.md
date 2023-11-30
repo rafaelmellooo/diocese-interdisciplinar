@@ -22,5 +22,5 @@
 https://github.com/rafaelmellooo/diocese-interdisciplinar/wiki/Wiki-Diocese-Santos
 
 
-## Design
+## Figma
 https://www.figma.com/file/OanQdefALjNqqwYAVmogIT/Diocese-de-Santos?type=design&node-id=0%3A1&mode=design&t=ISWvBhcak7XXplf9-1
