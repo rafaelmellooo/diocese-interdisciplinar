@@ -2,9 +2,10 @@ import React from 'react';
 import { Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer';
-import { styles } from './styles';
-import { useThemeStorage } from '../../ThemeStorageContext';
 import { useTheme } from '@react-navigation/native';
+
+import { useThemeStorage } from '../../ThemeStorageContext';
+import { styles } from './styles';
 
 type CustomDrawerProps = DrawerContentComponentProps;
 

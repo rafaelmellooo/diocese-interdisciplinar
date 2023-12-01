@@ -2,14 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Image, ImageRequireSource, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import * as Location from 'expo-location';
-import { Picker } from '@react-native-picker/picker';
+import { useTheme } from '@react-navigation/native';
 import * as htmlparser2 from "htmlparser2";
-import { Ionicons } from '@expo/vector-icons';
 
 import { Chapel } from '../../interfaces/Chapel';
 import ChapelPreview from '../../components/ChapelPreview';
 import { findChapels } from '../../services/diocesedesantos.api';
+import CityPicker from '../../components/CityPicker';
 import { styles } from './styles';
+import { darkMapStyle } from '../../themes/DarkTheme';
+import { defaultMapStyle } from '../../themes/DefaultTheme';
+import Checkbox from 'expo-checkbox';
 
 const markers: Record<string, ImageRequireSource> = {
     'bertioga': require('../../../assets/markers/icon-bertioga.png'),
@@ -23,53 +26,16 @@ const markers: Record<string, ImageRequireSource> = {
     'sv': require('../../../assets/markers/icon-sv.png'),
 };
 
-const cities = [
-    {
-        key: 60,
-        value: 'Bertioga - SP'
-    },
-    {
-        key: 57,
-        value: 'Cubatão - SP'
-    },
-    {
-        key: 58,
-        value: 'Guarujá - SP'
-    },
-    {
-        key: 61,
-        value: 'Itanhaém - SP'
-    },
-    {
-        key: 63,
-        value: 'Mongaguá - SP'
-    },
-    {
-        key: 62,
-        value: 'Peruíbe - SP'
-    },
-    {
-        key: 64,
-        value: 'Praia Grande - SP'
-    },
-    {
-        key: 59,
-        value: 'Santos - SP'
-    },
-    {
-        key: 56,
-        value: 'São Vicente - SP'
-    }
-];
-
 export default function Home() {
+    const { dark, colors } = useTheme();
+
     //const [location, setLocation] = useState<Location.LocationObject>();
-    const [selectedCity, setSelectedCity] = useState<number>();
     const [chapels, setChapels] = useState<Chapel[]>([]);
+    const [teste, setTeste] = useState<boolean>(false);
 
     const dimensions = useWindowDimensions();
 
-    const scrollRef = useRef<ScrollView>(null);
+    const scrollViewRef = useRef<ScrollView>(null);
 
     useEffect(() => {
         getLocation();
@@ -106,7 +72,8 @@ export default function Home() {
         const responseData = await findChapels({
             latitude: -23.9675956,
             longitude: -46.3377967,
-            city
+            //city,
+            city: 58
         });
 
         const chapels = responseData.features.map(item => {
@@ -136,14 +103,8 @@ export default function Home() {
         setChapels(chapels);
     }
 
-    const handleCityChange = (itemValue: number) => {
-        setSelectedCity(itemValue);
-
-        loadChapels(itemValue);
-    };
-
     const handleMarkerPress = (index: number) => {
-        scrollRef.current?.scrollTo({
+        scrollViewRef.current?.scrollTo({
             x: (index * (dimensions.width * 0.8)) + (index * 20),
             y: 0,
             animated: true
@@ -151,24 +112,9 @@ export default function Home() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.citySelectorContainer}>
-                <Ionicons name="location" size={24} color="black" />
-                <Picker
-                    style={styles.citySelector}
-
-                    selectedValue={selectedCity}
-                    onValueChange={(itemValue: number) => handleCityChange(itemValue)}
-                >
-                    <Picker.Item label='Selecione uma cidade' value={undefined} />
-                    {
-                        cities.map(city => (
-                            <Picker.Item key={city.key} label={city.value} value={city.key} />
-                        ))
-                    }
-                </Picker>
-            </View>
-
+        <View style={[styles.container, {
+            backgroundColor: colors.background
+        }]}>
             <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
@@ -178,6 +124,7 @@ export default function Home() {
                     longitude: -46.3377967,
                     longitudeDelta: 0.04
                 }}
+                customMapStyle={dark ? darkMapStyle : defaultMapStyle}
             >
                 <Marker
                     coordinate={{
@@ -204,8 +151,61 @@ export default function Home() {
                 ))}
             </MapView>
 
+            <View style={{
+                position: 'absolute',
+                top: 0,
+                width: dimensions.width
+            }}>
+                <CityPicker
+                    onCityChange={(cityId) => loadChapels(cityId)}
+                />
+
+                <ScrollView style={{
+                    backgroundColor: '#fff',
+                    height: 50
+                }}>
+                    <Text>Hello!</Text>
+
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}>
+                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
+                        <Text style={{
+                            marginLeft: 10
+                        }}>
+                            Hello
+                        </Text>
+                    </View>
+
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}>
+                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
+                        <Text style={{
+                            marginLeft: 10
+                        }}>
+                            Hello
+                        </Text>
+                    </View>
+
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}>
+                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
+                        <Text style={{
+                            marginLeft: 10
+                        }}>
+                            Hello
+                        </Text>
+                    </View>
+                </ScrollView>
+            </View>
+
             <ScrollView
-                ref={scrollRef}
+                ref={scrollViewRef}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled

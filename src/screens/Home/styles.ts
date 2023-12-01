@@ -14,15 +14,5 @@ export const styles = StyleSheet.create({
     horizontalList: {
         position: 'absolute',
         bottom: 10
-    },
-    citySelectorContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-        paddingHorizontal: 10,
-    },
-    citySelector: {
-        backgroundColor: '#ffffff',
-        flex: 1
     }
 });

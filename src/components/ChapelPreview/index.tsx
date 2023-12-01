@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { styles } from "./styles";
@@ -16,10 +16,12 @@ type ChapelPreviewProps = {
 export default function ChapelPreview(props: ChapelPreviewProps) {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
 
+    const { dark, colors } = useTheme();
+
     const dimensions = useWindowDimensions();
 
     const handleScheduleButtonPress = () => {
-        navigation.navigate('NewSchedule', {
+        navigation.navigate('NewReminder', {
             name: props.name,
             info: props.info,
             distance: props.distance
@@ -31,15 +33,39 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
             styles.card,
             {
                 width: dimensions.width * 0.8,
+                backgroundColor: colors.card
             }
         ]}>
-            <Text>{props.name}</Text>
-            <Text>{props.info}</Text>
-            <Text>{props.distance}</Text>
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'flex-start',
+            }}>
+                <View>
+                    <Text style={[styles.title, {
+                        color: dark ? '#1386F2' : '#0D2744'
+                    }]}>
+                        {props.name}
+                    </Text>
 
-            <TouchableOpacity style={styles.scheduleButton} onPress={() => handleScheduleButtonPress()}>
-                <Ionicons name='calendar' color='#fff' size={16} />
-                <Text style={styles.scheduleButtonText}>Agendar</Text>
+                    <Text style={[{
+                        color: colors.text
+                    }]}>
+                        {props.info}
+                    </Text>
+                </View>
+
+                <Text style={styles.distance}>
+                    {props.distance}
+                </Text>
+            </View>
+
+            <TouchableOpacity style={[styles.scheduleButton, {
+                backgroundColor: colors.primary
+            }]} onPress={() => handleScheduleButtonPress()}>
+                <Ionicons name='notifications' color={dark ? '#0A1D33' : '#F5F3F3'} size={16} />
+                <Text style={[styles.scheduleButtonText, {
+                    color: dark ? '#0A1D33' : '#F5F3F3'
+                }]}>Criar Lembrete</Text>
             </TouchableOpacity>
         </View>
     );

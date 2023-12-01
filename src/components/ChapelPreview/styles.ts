@@ -3,15 +3,27 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     card: {
         height: 220,
-        backgroundColor: '#ffffff',
         marginHorizontal: 10,
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         padding: 10,
         alignItems: 'center',
     },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginBottom: 10
+    },
+    distance: {
+        fontSize: 18,
+        color: '#1386F2',
+        borderColor: '#1386F2',
+        borderWidth: 1,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 20
+    },
     scheduleButton: {
-        backgroundColor: '#1386F2',
         paddingVertical: 10,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -19,7 +31,6 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
     },
     scheduleButtonText: {
-        color: '#ffffff',
         fontSize: 16,
         marginLeft: 6
     }

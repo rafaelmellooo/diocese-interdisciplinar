@@ -6,10 +6,13 @@ import { Verse } from '../../interfaces/Verse';
 import { RootStackParamList } from '../../navigation';
 import { StackScreenProps } from '@react-navigation/stack';
 import { styles } from './styles';
+import { useTheme } from '@react-navigation/native';
 
 type DailyVerseProps = StackScreenProps<RootStackParamList, 'DailyVerse'>;
 
 export default function DailyVerse(props: DailyVerseProps) {
+    const { colors } = useTheme();
+
     const [verse, setVerse] = useState<Verse>();
 
     useEffect(() => {
@@ -45,15 +48,21 @@ export default function DailyVerse(props: DailyVerseProps) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {
+            backgroundColor: colors.background
+        }]}>
             <Animated.Text
-                style={[styles.title, animatedStyle]}
+                style={[styles.title, animatedStyle, {
+                    color: colors.text
+                }]}
             >
                 {verse?.bookName} {verse?.chapter}:{verse?.number}
             </Animated.Text>
 
             <Animated.Text
-                style={[styles.text, animatedStyle]}
+                style={[styles.text, animatedStyle, {
+                    color: colors.text
+                }]}
             >
                 {verse?.text}
             </Animated.Text>

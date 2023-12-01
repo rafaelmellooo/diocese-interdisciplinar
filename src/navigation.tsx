@@ -4,22 +4,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons'
 
 import Home from './screens/Home';
-import Schedules from './screens/Schedules';
+import Reminders from './screens/Reminders';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomDrawer from './components/CustomDrawer';
-import NewSchedule from './screens/NewSchedule';
+import NewReminder from './screens/NewReminder';
 import DailyVerse from './screens/DailyVerse';
-import { useThemeStorage } from './ThemeStorageContext';
 import { DarkTheme } from './themes/DarkTheme';
 import { DefaultTheme } from './themes/DefaultTheme';
+import { useThemeStorage } from './ThemeStorageContext';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator<RootStackParamList>();
 
 export type RootStackParamList = {
   Home: undefined;
-  NewSchedule: {
+  NewReminder: {
     name: string;
     info: string;
     distance: string;
@@ -34,7 +34,7 @@ function DrawerNavigator() {
 
   return (
     <Drawer.Navigator
-      initialRouteName='Schedules'
+      initialRouteName='Finder'
       drawerContent={(props) => (
         <CustomDrawer {...props} />
       )}
@@ -76,19 +76,19 @@ function DrawerNavigator() {
           title: 'Localizar Missas',
           drawerLabel: 'Missas',
           drawerIcon: (props) => (
-            <Ionicons name='time' color={colors.text} size={props.size} />
+            <Ionicons name='location' color={colors.text} size={props.size} />
           )
         }}
       />
 
       <Drawer.Screen
         name="Schedules"
-        component={Schedules}
+        component={Reminders}
         options={{
-          title: 'Meus Agendamentos',
-          drawerLabel: 'Agendamentos',
+          title: 'Meus Lembretes',
+          drawerLabel: 'Lembretes',
           drawerIcon: (props) => (
-            <Ionicons name='calendar' color={colors.text} size={props.size} />
+            <Ionicons name='notifications' color={colors.text} size={props.size} />
           )
         }}
       />
@@ -102,7 +102,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='DailyVerse'
+        initialRouteName='Home'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'
@@ -123,10 +123,10 @@ export default function RootStackNavigator() {
         />
 
         <Stack.Screen
-          name="NewSchedule"
-          component={NewSchedule}
+          name="NewReminder"
+          component={NewReminder}
           options={{
-            title: 'Novo Agendamento',
+            title: 'Novo Lembrete',
           }}
         />
 

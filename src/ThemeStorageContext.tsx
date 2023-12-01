@@ -10,19 +10,19 @@ type ThemeStorageContextType = {
 const ThemeStorageContext = createContext({} as ThemeStorageContextType);
 
 export function ThemeStorageProvider({ children }: React.PropsWithChildren) {
-    const [theme, setTheme] = useState<ColorSchemeName>(Appearance.getColorScheme());
+    const [theme, setTheme] = useState<ColorSchemeName>();
+
+    const storedTheme = useAsyncStorage('@theme');
 
     useEffect(() => {
-        console.log(Appearance.getColorScheme());
+        setTheme(Appearance.getColorScheme());
     }, []);
-
-    const themeStorage = useAsyncStorage('@theme');
 
     const toggleTheme = async (theme: ColorSchemeName) => {
         setTheme(theme);
 
         if (theme) {
-            themeStorage.setItem(theme);
+            storedTheme.setItem(theme);
         }
     };
 
