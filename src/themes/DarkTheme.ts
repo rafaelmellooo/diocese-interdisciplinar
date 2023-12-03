@@ -1,4 +1,6 @@
-export const DarkTheme = {
+import { Theme } from "@react-navigation/native";
+
+export const DarkTheme: Theme = {
     dark: true,
     colors: {
         primary: '#1386F2',

@@ -21,7 +21,7 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
 
     const dimensions = useWindowDimensions();
 
-    const handleScheduleButtonPress = () => {
+    const handleReminderButtonPress = () => {
         navigation.navigate('NewReminder', {
             name: props.name,
             info: props.info,
@@ -70,11 +70,16 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
 
             <TouchableOpacity style={[styles.scheduleButton, {
                 backgroundColor: colors.primary
-            }]} onPress={() => handleScheduleButtonPress()}>
+            }]} onPress={() => handleReminderButtonPress()}>
                 <Ionicons name='notifications' color={dark ? '#0A1D33' : '#F5F3F3'} size={16} />
-                <Text style={[styles.scheduleButtonText, {
-                    color: dark ? '#0A1D33' : '#F5F3F3'
-                }]}>Criar Lembrete</Text>
+
+                <Text
+                    style={[styles.scheduleButtonText, {
+                        color: dark ? '#0A1D33' : '#F5F3F3'
+                    }]}
+                >
+                    Criar Lembrete
+                </Text>
             </TouchableOpacity>
         </View>
     );

@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChapelPreview component renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "borderTopLeftRadius": 5,
+        "borderTopRightRadius": 5,
+        "height": 220,
+        "marginHorizontal": 10,
+        "padding": 10,
+      },
+      {
+        "backgroundColor": "rgb(255, 255, 255)",
+        "width": 600,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          [
+            {
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "marginBottom": 10,
+            },
+            {
+              "color": "#0D2744",
+            },
+          ]
+        }
+      >
+        Chapel Name
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "rgb(28, 28, 30)",
+            },
+          ]
+        }
+      >
+        Chapel Info
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "rgb(28, 28, 30)",
+            },
+          ]
+        }
+      >
+        Chapel Address
+      </Text>
+    </View>
+    <Text
+      style={
+        [
+          {
+            "borderRadius": 20,
+            "borderWidth": 2,
+            "color": "#1386F2",
+            "fontSize": 18,
+            "paddingHorizontal": 8,
+            "paddingVertical": 4,
+          },
+          {
+            "borderColor": "rgb(216, 216, 216)",
+          },
+        ]
+      }
+    >
+      5 km
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "rgb(0, 122, 255)",
+        "borderRadius": 5,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 20,
+        "paddingVertical": 10,
+      }
+    }
+  >
+    <Text />
+    <Text
+      style={
+        [
+          {
+            "fontSize": 16,
+            "marginLeft": 6,
+          },
+          {
+            "color": "#F5F3F3",
+          },
+        ]
+      }
+    >
+      Criar Lembrete
+    </Text>
+  </View>
+</View>
+`;
