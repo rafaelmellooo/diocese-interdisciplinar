@@ -1,71 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { getRandomVerse } from '../../services/abibliadigital.api';
-import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Verse } from '../../interfaces/Verse';
-import { RootStackParamList } from '../../navigation';
-import { StackScreenProps } from '@react-navigation/stack';
-import { styles } from './styles';
-import { useTheme } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import { View } from "react-native";
+import { getRandomVerse } from "../../services/abibliadigital.api";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { Verse } from "../../interfaces/Verse";
+import { RootStackParamList } from "../../navigation";
+import { StackScreenProps } from "@react-navigation/stack";
+import { styles } from "./styles";
+import { useTheme } from "@react-navigation/native";
 
-type DailyVerseProps = StackScreenProps<RootStackParamList, 'DailyVerse'>;
+type DailyVerseProps = StackScreenProps<RootStackParamList, "DailyVerse">;
 
 export default function DailyVerse(props: DailyVerseProps) {
-    const { colors } = useTheme();
+  const { colors } = useTheme();
 
-    const [verse, setVerse] = useState<Verse>();
+  const [verse, setVerse] = useState<Verse>();
 
-    useEffect(() => {
-        loadDailyVerse().then(() => {
-            setTimeout(() => {
-                props.navigation.navigate('Home');
-            }, 5000);
-        });
-    }, []);
-
-    const textOpacity = useSharedValue(0);
-
-    const animatedStyle = useAnimatedStyle(() => {
-        return {
-            opacity: textOpacity.value
-        }
+  useEffect(() => {
+    loadDailyVerse().then(() => {
+      setTimeout(() => {
+        props.navigation.navigate("Home");
+      }, 5000);
     });
+  }, []);
 
-    const loadDailyVerse = async () => {
-        const responseData = await getRandomVerse();
+  const textOpacity = useSharedValue(0);
 
-        const verse: Verse = {
-            bookName: responseData.book.name,
-            chapter: responseData.chapter,
-            number: responseData.number,
-            text: responseData.text
-        };
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: textOpacity.value,
+    };
+  });
 
-        setVerse(verse);
-        textOpacity.value = withTiming(1, {
-            duration: 1000
-        });
-    }
+  const loadDailyVerse = async () => {
+    const responseData = await getRandomVerse();
 
-    return (
-        <View style={[styles.container, {
-            backgroundColor: colors.background
-        }]}>
-            <Animated.Text
-                style={[styles.title, animatedStyle, {
-                    color: colors.text
-                }]}
-            >
-                {verse?.bookName} {verse?.chapter}:{verse?.number}
-            </Animated.Text>
+    const verse: Verse = {
+      bookName: responseData.book.name,
+      chapter: responseData.chapter,
+      number: responseData.number,
+      text: responseData.text,
+    };
 
-            <Animated.Text
-                style={[styles.text, animatedStyle, {
-                    color: colors.text
-                }]}
-            >
-                {verse?.text}
-            </Animated.Text>
-        </View>
-    );
+    setVerse(verse);
+    textOpacity.value = withTiming(1, {
+      duration: 1000,
+    });
+  };
+
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.background,
+        },
+      ]}>
+      <Animated.Text
+        style={[
+          styles.title,
+          animatedStyle,
+          {
+            color: colors.text,
+          },
+        ]}>
+        {verse?.bookName} {verse?.chapter}:{verse?.number}
+      </Animated.Text>
+
+      <Animated.Text
+        style={[
+          styles.text,
+          animatedStyle,
+          {
+            color: colors.text,
+          },
+        ]}>
+        {verse?.text}
+      </Animated.Text>
+    </View>
+  );
 }
