@@ -3,16 +3,17 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Image, ImageRequireSource, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import * as Location from 'expo-location';
 import { useTheme } from '@react-navigation/native';
-import * as htmlparser2 from "htmlparser2";
+import * as cheerio from 'cheerio';
 
 import { Chapel } from '../../interfaces/Chapel';
 import ChapelPreview from '../../components/ChapelPreview';
 import { findChapels } from '../../services/diocesedesantos.api';
-import CityPicker from '../../components/CityPicker';
+import CustomPicker from '../../components/CustomPicker';
 import { styles } from './styles';
 import { darkMapStyle } from '../../themes/DarkTheme';
 import { defaultMapStyle } from '../../themes/DefaultTheme';
-import Checkbox from 'expo-checkbox';
+import CustomCheckbox from '../../components/CustomCheckbox';
+import Multiselect from '../../components/Multiselect';
 
 const markers: Record<string, ImageRequireSource> = {
     'bertioga': require('../../../assets/markers/icon-bertioga.png'),
@@ -31,7 +32,6 @@ export default function Home() {
 
     //const [location, setLocation] = useState<Location.LocationObject>();
     const [chapels, setChapels] = useState<Chapel[]>([]);
-    const [teste, setTeste] = useState<boolean>(false);
 
     const dimensions = useWindowDimensions();
 
@@ -73,20 +73,18 @@ export default function Home() {
             latitude: -23.9675956,
             longitude: -46.3377967,
             //city,
-            city: 58
+            city: 56
         });
 
         const chapels = responseData.features.map(item => {
-            const name = htmlparser2.DomUtils.textContent(htmlparser2.parseDocument(item.properties.name));
+            const $ = cheerio.load(item.properties.fulladdress);
 
-            const info = htmlparser2.DomUtils.textContent(htmlparser2.parseDocument(item.properties.fulladdress));
-
-            const city = /icon-(?<city>[a-z-]+)\.png$/.exec(item.properties.icon)?.groups?.city ?? '';
+            const city = /icon-(?<city>[a-z-]+)\.png$/.exec(item.properties.icon)?.groups?.city;
 
             const chapel: Chapel = {
-                name: name,
+                name: cheerio.load(item.properties.name).text(),
 
-                info: info,
+                info: $('b').first().text() + "\n" + "Olá",
 
                 distance: item.properties.distance,
 
@@ -94,7 +92,7 @@ export default function Home() {
 
                 city: city,
 
-                address: ''
+                address: $('b').last().text()
             };
 
             return chapel;
@@ -143,10 +141,10 @@ export default function Home() {
                         }}
                         title={chapel.name}
                     >
-                        <Image
+                        {chapel.city && <Image
                             source={markers[chapel.city]}
                             style={styles.markerIcon}
-                        />
+                        />}
                     </Marker>
                 ))}
             </MapView>
@@ -156,52 +154,11 @@ export default function Home() {
                 top: 0,
                 width: dimensions.width
             }}>
-                <CityPicker
-                    onCityChange={(cityId) => loadChapels(cityId)}
+                <CustomPicker
+                    onChange={(cityId) => loadChapels(cityId)}
                 />
 
-                <ScrollView style={{
-                    backgroundColor: '#fff',
-                    height: 50
-                }}>
-                    <Text>Hello!</Text>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
-                        <Text style={{
-                            marginLeft: 10
-                        }}>
-                            Hello
-                        </Text>
-                    </View>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
-                        <Text style={{
-                            marginLeft: 10
-                        }}>
-                            Hello
-                        </Text>
-                    </View>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                        <Checkbox value={teste} onValueChange={setTeste} color={colors.primary} />
-                        <Text style={{
-                            marginLeft: 10
-                        }}>
-                            Hello
-                        </Text>
-                    </View>
-                </ScrollView>
+                <Multiselect />
             </View>
 
             <ScrollView
@@ -221,6 +178,7 @@ export default function Home() {
                         name={chapel.name}
                         info={chapel.info}
                         distance={chapel.distance}
+                        address={chapel.address}
                     />
                 ))}
             </ScrollView>

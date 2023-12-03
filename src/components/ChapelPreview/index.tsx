@@ -11,6 +11,7 @@ type ChapelPreviewProps = {
     name: string;
     info: string;
     distance: string;
+    address: string;
 }
 
 export default function ChapelPreview(props: ChapelPreviewProps) {
@@ -52,9 +53,17 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
                     }]}>
                         {props.info}
                     </Text>
+
+                    <Text style={[{
+                        color: colors.text
+                    }]}>
+                        {props.address}
+                    </Text>
                 </View>
 
-                <Text style={styles.distance}>
+                <Text style={[styles.distance, {
+                    borderColor: colors.border,
+                }]}>
                     {props.distance}
                 </Text>
             </View>

@@ -5,7 +5,7 @@ export const DefaultTheme = {
         background: '#F5F3F3',
         card: '#F5F3F3',
         text: '#0A1D33',
-        border: '#CCD5E0',
+        border: '#1386F2',
         notification: 'rgb(255, 69, 58)',
     },
 };

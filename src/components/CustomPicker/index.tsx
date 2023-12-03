@@ -45,11 +45,11 @@ const cities = [
     }
 ];
 
-type CityPickerProps = {
-    onCityChange: (cityId: number) => void;
+type CustomPickerProps = {
+    onChange: (cityId: number) => void;
 };
 
-export default function CityPicker(props: CityPickerProps) {
+export default function CustomPicker(props: CustomPickerProps) {
     const { colors } = useTheme();
 
     const [selectedCity, setSelectedCity] = useState<number>();
@@ -57,7 +57,7 @@ export default function CityPicker(props: CityPickerProps) {
     const handleCityChange = (cityId: number) => {
         setSelectedCity(cityId);
 
-        props.onCityChange(cityId);
+        props.onChange(cityId);
     }
 
     return (

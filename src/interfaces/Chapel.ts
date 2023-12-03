@@ -1,7 +1,7 @@
 export interface Chapel {
     name: string;
 
-    city: string;
+    city?: string;
 
     distance: string;
 

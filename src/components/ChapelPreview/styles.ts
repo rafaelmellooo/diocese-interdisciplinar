@@ -17,8 +17,7 @@ export const styles = StyleSheet.create({
     distance: {
         fontSize: 18,
         color: '#1386F2',
-        borderColor: '#1386F2',
-        borderWidth: 1,
+        borderWidth: 2,
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 20
