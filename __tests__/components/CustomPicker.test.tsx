@@ -1,20 +1,21 @@
-// import React from "react";
-// import { render, fireEvent } from "@testing-library/react-native";
-// import CustomPicker from "../../src/components/CustomPicker";
+import React from "react";
+import { render, fireEvent } from "@testing-library/react-native";
+import renderer from "react-test-renderer";
+import CustomPicker from "../../src/components/CustomPicker";
 
-// describe("CustomPicker component", () => {
-//   it("renders correctly", () => {
-//     const mockOnCityChange = jest.fn();
-//     const { getByText, getByTestId } = render(
-//       <CustomPicker onChange={mockOnCityChange} />
-//     );
+describe("CustomPicker component", () => {
+  it("renders correctly", () => {
+    const mockOnCityChange = jest.fn();
+    const tree = renderer
+      .create(<CustomPicker onChange={mockOnCityChange} />)
+      .toJSON();
 
-//     expect(getByText("Selecione uma cidade")).toBeTruthy();
-//   });
+    expect(tree).toMatchSnapshot();
+  });
 
 //   it("calls onCityChange when a city is selected", () => {
 //     const mockOnCityChange = jest.fn();
-//     const { getByTestId, getByLabelText } = render(
+//     const { getByLabelText } = render(
 //       <CustomPicker onChange={mockOnCityChange} />
 //     );
 
@@ -25,4 +26,4 @@
 
 //     expect(mockOnCityChange).toHaveBeenCalledWith(60);
 //   });
-// });
+});
