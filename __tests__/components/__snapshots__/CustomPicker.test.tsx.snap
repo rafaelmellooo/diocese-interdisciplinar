@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomPicker component renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "paddingHorizontal": 10,
+      },
+      {
+        "backgroundColor": "rgb(242, 242, 242)",
+      },
+    ]
+  }
+>
+  <Text />
+  <View
+    style={
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "color": "rgb(28, 28, 30)",
+        },
+      ]
+    }
+  >
+    <RNCPicker
+      items={
+        [
+          {
+            "label": "Selecione uma cidade",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": null,
+          },
+          {
+            "label": "Bertioga - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 60,
+          },
+          {
+            "label": "Cubatão - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 57,
+          },
+          {
+            "label": "Guarujá - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 58,
+          },
+          {
+            "label": "Itanhaém - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 61,
+          },
+          {
+            "label": "Mongaguá - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 63,
+          },
+          {
+            "label": "Peruíbe - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 62,
+          },
+          {
+            "label": "Praia Grande - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 64,
+          },
+          {
+            "label": "Santos - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 59,
+          },
+          {
+            "label": "São Vicente - SP",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": 56,
+          },
+        ]
+      }
+      numberOfLines={1}
+      onChange={[Function]}
+      selectedIndex={0}
+      style={
+        [
+          {
+            "height": 216,
+          },
+          undefined,
+        ]
+      }
+    />
+  </View>
+</View>
+`;
