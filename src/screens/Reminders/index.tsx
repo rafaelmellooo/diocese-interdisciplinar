@@ -45,8 +45,7 @@ export default function Reminders() {
                         borderColor: colors.border
                     }]} key={index}>
                         <Text style={[styles.cardTitle, { color: colors.text }]}>{reminder.name}</Text>
-                        <Text style={[{ color: colors.text }]}>{reminder.info}</Text>
-                        <Text style={[{ color: colors.text }]}>{reminder.distance}</Text>
+                        <Text style={[{ color: colors.text }]}>Endereço: {reminder.address}</Text>
                     </View>
                 ))
             }

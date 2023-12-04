@@ -90,7 +90,7 @@ export default function Events() {
                                     color: colors.text
                                 }]}
                             >
-                                {event.date.toLocaleDateString()} - {event.date.toLocaleTimeString()}
+                                {event.date.toLocaleDateString()} - {event.date.toLocaleDateString()}
                             </Text>
                             <TouchableOpacity
                                 style={{

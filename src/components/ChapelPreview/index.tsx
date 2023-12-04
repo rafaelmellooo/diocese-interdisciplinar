@@ -4,11 +4,14 @@ import {
   View,
   TouchableOpacity,
   useWindowDimensions,
+  ScrollView
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { styles } from "./styles";
+import { RootStackParamList } from "../../navigation";
 
 type ChapelPreviewProps = {
   name: string;
@@ -24,9 +27,16 @@ type ChapelPreviewProps = {
 export default function ChapelPreview(props: ChapelPreviewProps) {
   const { dark, colors } = useTheme();
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList, "Home">>();
+
   const dimensions = useWindowDimensions();
 
-  const handleReminderButtonPress = async () => { };
+  const handleReminderButtonPress = async () => {
+    navigation.navigate("NewReminder", {
+      name: props.name,
+      address: props.address,
+    });
+  };
 
   return (
     <View
@@ -57,49 +67,56 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
             {props.name}
           </Text>
 
-          <Text style={[{
-            fontWeight: 'bold',
-            color: colors.text
-          }]}>
-            {props.info.title}
-          </Text>
+          <ScrollView
+            style={{
+              height: 100
+            }}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={[{
+              fontWeight: 'bold',
+              color: colors.text
+            }]}>
+              {props.info.title}
+            </Text>
 
-          <Text
-            style={[
-              {
-                color: colors.text,
-              },
-            ]}>
-            {props.info.text}
-          </Text>
+            <Text
+              style={[
+                {
+                  color: colors.text,
+                },
+              ]}>
+              {props.info.text}
+            </Text>
 
-          <Text style={[{
-            marginTop: 10,
-            fontWeight: 'bold',
-            color: colors.text
-          }]}>
-            Endereço
-          </Text>
+            <Text style={[{
+              marginTop: 10,
+              fontWeight: 'bold',
+              color: colors.text
+            }]}>
+              Endereço
+            </Text>
 
-          <Text
-            style={[
-              {
-                color: colors.text
-              }
-            ]}>
-            {props.address}
-          </Text>
+            <Text
+              style={[
+                {
+                  color: colors.text
+                }
+              ]}>
+              {props.address}
+            </Text>
 
-          {
-            props.contact && (
-              <Text style={[{
-                marginTop: 10,
-                color: colors.text
-              }]}>
-                Telefone: {props.contact}
-              </Text>
-            )
-          }
+            {
+              props.contact && (
+                <Text style={[{
+                  marginTop: 10,
+                  color: colors.text
+                }]}>
+                  Telefone: {props.contact}
+                </Text>
+              )
+            }
+          </ScrollView>
         </View>
 
         <Text style={[styles.distance, {

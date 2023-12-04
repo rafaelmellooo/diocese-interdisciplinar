@@ -13,6 +13,7 @@ import { DarkTheme } from './themes/DarkTheme';
 import { DefaultTheme } from './themes/DefaultTheme';
 import { useThemeStorage } from './contexts/ThemeStorageContext';
 import Events from './screens/Events';
+import NewReminder from './screens/NewReminder';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -26,6 +27,10 @@ type DrawerParamList = {
 export type RootStackParamList = {
   Home: NavigatorScreenParams<DrawerParamList>;
   DailyVerse: undefined;
+  NewReminder: {
+    name: string;
+    address?: string;
+  };
 };
 
 function DrawerNavigator() {
@@ -115,7 +120,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName='DailyVerse'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'
@@ -133,6 +138,15 @@ export default function RootStackNavigator() {
             headerShown: false,
           }}
           component={DrawerNavigator}
+        />
+
+        <Stack.Screen
+          name='NewReminder'
+          component={NewReminder}
+          options={{
+            presentation: 'modal',
+            title: 'Novo Lembrete',
+          }}
         />
 
         <Stack.Screen

@@ -32,7 +32,7 @@ export default function Home() {
 
     const { location } = useLocation();
     const [chapels, setChapels] = useState<Chapel[]>([]);
-    const [selectedCity, setSelectedCity] = useState<number>();
+    const [selectedCity, setSelectedCity] = useState<number>(59);
     const [selectedSchedules, setSelectedSchedules] = useState<number[]>([]);
 
     const dimensions = useWindowDimensions();

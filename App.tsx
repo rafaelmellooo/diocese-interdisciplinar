@@ -25,8 +25,11 @@ export default function App() {
 
   const storedTheme = useAsyncStorage("@theme");
   const storedCalendar = useAsyncStorage("@calendar");
+  const storedReminders = useAsyncStorage("@reminders");
 
   useEffect(() => {
+    storedReminders.removeItem();
+
     Promise.all([
       loadingTheme(),
       loadingLocation(),
