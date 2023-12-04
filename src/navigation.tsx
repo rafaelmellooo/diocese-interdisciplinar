@@ -12,7 +12,7 @@ import NewReminder from './screens/NewReminder';
 import DailyVerse from './screens/DailyVerse';
 import { DarkTheme } from './themes/DarkTheme';
 import { DefaultTheme } from './themes/DefaultTheme';
-import { useThemeStorage } from './ThemeStorageContext';
+import { useThemeStorage } from './contexts/ThemeStorageContext';
 import Events from './screens/Events';
 
 const Drawer = createDrawerNavigator();

@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         borderTopRightRadius: 5,
         padding: 10,
         alignItems: 'center',
+        borderWidth: 1
     },
     title: {
         fontWeight: 'bold',

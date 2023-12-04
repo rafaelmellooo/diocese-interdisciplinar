@@ -7,7 +7,7 @@ import {
 } from "@react-navigation/drawer";
 import { useTheme } from "@react-navigation/native";
 
-import { useThemeStorage } from "../../ThemeStorageContext";
+import { useThemeStorage } from "../../contexts/ThemeStorageContext";
 import { styles } from "./styles";
 
 type CustomDrawerProps = DrawerContentComponentProps;

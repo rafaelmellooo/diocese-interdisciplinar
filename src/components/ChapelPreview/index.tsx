@@ -43,6 +43,7 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
         {
           width: dimensions.width * 0.8,
           backgroundColor: colors.card,
+          borderColor: colors.border,
         },
       ]}>
       <View

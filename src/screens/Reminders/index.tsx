@@ -40,11 +40,11 @@ export default function Reminders() {
         >
             {
                 reminders.map((reminder, index) => (
-                    <View style={[styles.reminder, {
+                    <View style={[styles.card, {
                         backgroundColor: colors.card,
                         borderColor: colors.border
                     }]} key={index}>
-                        <Text style={[styles.reminderTitle, { color: colors.text }]}>{reminder.name}</Text>
+                        <Text style={[styles.cardTitle, { color: colors.text }]}>{reminder.name}</Text>
                         <Text style={[{ color: colors.text }]}>{reminder.info}</Text>
                         <Text style={[{ color: colors.text }]}>{reminder.distance}</Text>
                     </View>

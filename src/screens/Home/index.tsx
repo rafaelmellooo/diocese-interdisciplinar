@@ -12,7 +12,6 @@ import CustomPicker from '../../components/CustomPicker';
 import { styles } from './styles';
 import { darkMapStyle } from '../../themes/DarkTheme';
 import { defaultMapStyle } from '../../themes/DefaultTheme';
-import CustomCheckbox from '../../components/CustomCheckbox';
 import Multiselect from '../../components/Multiselect';
 
 const markers: Record<string, ImageRequireSource> = {

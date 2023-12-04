@@ -8,23 +8,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { Event } from '../../interfaces/Event';
 import { getEvents } from '../../services/diocesedesantos.api';
+import { useCalendar } from '../../contexts/CalendarContext';
 
 export default function Events() {
     const { colors } = useTheme();
+    const { calendar } = useCalendar();
 
     const [events, setEvents] = useState<Event[]>([]);
 
     useFocusEffect(useCallback(() => {
         loadEvents();
-
-        (async () => {
-            const { status } = await Calendar.requestCalendarPermissionsAsync();
-
-            if (status !== Calendar.PermissionStatus.GRANTED) {
-                console.log('Não foi possível acessar a agenda, a permissão foi negada');
-                return;
-            }
-        })();
     }, []));
 
     const loadEvents = async () => {
@@ -50,9 +43,7 @@ export default function Events() {
     };
 
     const handleAddToCalendarButtonPress = async (title: string, date: Date) => {
-        const defaultCalendarSource = await Calendar.getDefaultCalendarAsync();
-
-        await Calendar.createEventAsync(defaultCalendarSource.id, {
+        await Calendar.createEventAsync(calendar, {
             accessLevel: Calendar.CalendarAccessLevel.OWNER,
             title: title,
             startDate: date,
@@ -73,25 +64,22 @@ export default function Events() {
             {
                 events.map((event, index) => (
                     <View
-                        style={[styles.event, {
+                        style={[styles.card, {
                             backgroundColor: colors.card,
                             borderColor: colors.border
                         }]}
                         key={index}
                     >
                         <View>
-                            <View style={[styles.eventTitleContainer]}>
+                            <View style={[styles.cardTitleContainer]}>
                                 <Text
-                                    style={[styles.eventTitleText, {
+                                    style={[styles.cardTitleText, {
                                         color: colors.text
                                     }]}
                                 >
                                     {event.title}
                                 </Text>
                                 <TouchableOpacity
-                                    style={[{
-                                        marginLeft: 10
-                                    }]}
                                     onPress={() => handleShareButtonPress(event.title, event.date.toLocaleDateString())}
                                 >
                                     <Ionicons name="share-social" color={colors.text} size={32} />
