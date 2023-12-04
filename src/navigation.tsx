@@ -35,7 +35,7 @@ function DrawerNavigator() {
 
   return (
     <Drawer.Navigator
-      initialRouteName='Finder'
+      initialRouteName='Events'
       drawerContent={(props) => (
         <CustomDrawer {...props} />
       )}
@@ -115,7 +115,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='DailyVerse'
+        initialRouteName='Home'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'

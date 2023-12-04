@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { useTheme } from "@react-navigation/native";
@@ -45,19 +45,19 @@ const cities = [
 ];
 
 type CustomPickerProps = {
-    onChange: (cityId: number) => void;
+  onChange: (cityId: number) => void;
 };
 
 export default function CustomPicker(props: CustomPickerProps) {
-    const { colors } = useTheme();
+  const { dark, colors } = useTheme();
 
   const [selectedCity, setSelectedCity] = useState<number>();
 
   const handleCityChange = (cityId: number) => {
     setSelectedCity(cityId);
 
-        props.onChange(cityId);
-    }
+    props.onChange(cityId);
+  }
 
   return (
     <View
@@ -67,7 +67,7 @@ export default function CustomPicker(props: CustomPickerProps) {
           backgroundColor: colors.background,
         },
       ]}>
-      <Ionicons name="location" size={24} color={colors.text} />
+      <Ionicons lineBreakStrategyIOS="hangul-word" name="location" size={24} color={colors.text} />
       <Picker
         style={[
           styles.pickerContainer,
@@ -78,10 +78,20 @@ export default function CustomPicker(props: CustomPickerProps) {
         dropdownIconColor={colors.text}
         selectedValue={selectedCity}
         onValueChange={(cityId: number) => handleCityChange(cityId)}>
-        <Picker.Item label="Selecione uma cidade" value={null} />
-        {cities.map((city) => (
-          <Picker.Item key={city.id} label={city.value} value={city.id} />
-        ))}
+        <Picker.Item
+          color={Platform.OS === 'ios' ? colors.text : undefined}
+          label="Selecione uma cidade"
+          value={null} />
+        {
+          cities.map((city) => (
+            <Picker.Item
+              color={Platform.OS === 'ios' ? colors.text : undefined}
+              key={city.id}
+              label={city.value}
+              value={city.id}
+            />
+          ))
+        }
       </Picker>
     </View>
   );

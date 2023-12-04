@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, Share } from 'react-native';
+import { View, Text, Share, Platform } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
+import * as Calendar from 'expo-calendar';
 import { Ionicons } from '@expo/vector-icons';
 
 import { styles } from './styles';
@@ -15,6 +16,15 @@ export default function Events() {
 
     useFocusEffect(useCallback(() => {
         loadEvents();
+
+        (async () => {
+            const { status } = await Calendar.requestCalendarPermissionsAsync();
+
+            if (status !== Calendar.PermissionStatus.GRANTED) {
+                console.log('Não foi possível acessar a agenda, a permissão foi negada');
+                return;
+            }
+        })();
     }, []));
 
     const loadEvents = async () => {
@@ -39,8 +49,16 @@ export default function Events() {
         })
     };
 
-    const handleAddToCalendarButtonPress = (title: string, date: string) => {
-        
+    const handleAddToCalendarButtonPress = async (title: string, date: Date) => {
+        const defaultCalendarSource = await Calendar.getDefaultCalendarAsync();
+
+        await Calendar.createEventAsync(defaultCalendarSource.id, {
+            accessLevel: Calendar.CalendarAccessLevel.OWNER,
+            title: title,
+            startDate: date,
+            endDate: date,
+            status: Calendar.EventStatus.CONFIRMED
+        });
     };
 
     return (
@@ -92,7 +110,7 @@ export default function Events() {
                                     alignItems: 'center',
                                     marginTop: 10
                                 }}
-                                onPress={() => handleShareButtonPress(event.title, event.date.toLocaleDateString())}
+                                onPress={() => handleAddToCalendarButtonPress(event.title, event.date)}
                             >
                                 <Ionicons name="calendar" color={colors.text} size={32} />
                                 <Text style={{
