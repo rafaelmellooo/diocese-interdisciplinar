@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         color: '#1386F2',
         borderWidth: 2,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
         borderRadius: 20
     },
     scheduleButton: {

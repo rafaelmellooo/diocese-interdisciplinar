@@ -3,7 +3,11 @@ import Checkbox from 'expo-checkbox';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-export default function CustomCheckbox() {
+type CustomCheckboxProps = {
+    label: string;
+};
+
+export default function CustomCheckbox(props: CustomCheckboxProps) {
     const { colors } = useTheme();
 
     const [value, setValue] = React.useState(false);
@@ -17,10 +21,7 @@ export default function CustomCheckbox() {
                     backgroundColor: colors.background,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    borderColor: colors.border,
-                    borderWidth: 2,
-                    padding: 10,
-                    borderRadius: 2
+                    padding: 10
                 }}
                 onPress={() => setValue(!value)}
             >
@@ -30,7 +31,7 @@ export default function CustomCheckbox() {
                     fontWeight: 'bold',
                     marginLeft: 10
                 }}>
-                    Hello
+                    {props.label}
                 </Text>
             </TouchableOpacity>
         </View>

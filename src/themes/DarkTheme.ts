@@ -5,9 +5,9 @@ export const DarkTheme: Theme = {
     colors: {
         primary: '#1386F2',
         background: '#0A1D33',
-        card: '#0A1D33',
+        card: '#0D2744',
         text: '#F5F3F3',
-        border: '#1386F2',
+        border: '#0D2744',
         notification: 'rgb(255, 69, 58)',
     },
 };

@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 import { Reminder } from '../../interfaces/Reminder';
 import { styles } from './styles';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Reminders() {
-    const { colors } = useTheme();
+    const { dark, colors } = useTheme();
 
     const [reminders, setReminders] = useState<Reminder[]>([]);
 
@@ -28,18 +29,27 @@ export default function Reminders() {
     };
 
     return (
-        <View style={[styles.container, {
-            backgroundColor: colors.background
-        }]}>
+        <ScrollView
+            showsVerticalScrollIndicator style={[styles.container, {
+                backgroundColor: colors.background
+            }]}
+            contentContainerStyle={{
+                paddingVertical: 10,
+                paddingHorizontal: 20
+            }}
+        >
             {
                 reminders.map((reminder, index) => (
-                    <View key={index}>
-                        <Text>{reminder.name}</Text>
-                        <Text>{reminder.info}</Text>
-                        <Text>{reminder.distance}</Text>
+                    <View style={[styles.reminder, {
+                        backgroundColor: colors.card,
+                        borderColor: colors.border
+                    }]} key={index}>
+                        <Text style={[styles.reminderTitle, { color: colors.text }]}>{reminder.name}</Text>
+                        <Text style={[{ color: colors.text }]}>{reminder.info}</Text>
+                        <Text style={[{ color: colors.text }]}>{reminder.distance}</Text>
                     </View>
                 ))
             }
-        </View>
+        </ScrollView>
     );
 }

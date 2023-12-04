@@ -14,7 +14,7 @@ type GetVerseResponse = {
     chapter: number;
     number: number;
     text: string;
-}
+};
 
 export async function getRandomVerse() {
     const response = await api.get<GetVerseResponse>('/api/verses/acf/random');

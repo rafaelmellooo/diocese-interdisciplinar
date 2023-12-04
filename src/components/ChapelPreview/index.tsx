@@ -62,7 +62,7 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
                 </View>
 
                 <Text style={[styles.distance, {
-                    borderColor: colors.border,
+                    borderColor: colors.primary,
                 }]}>
                     {props.distance}
                 </Text>

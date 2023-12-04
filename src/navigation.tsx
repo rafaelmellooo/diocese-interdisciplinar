@@ -13,6 +13,7 @@ import DailyVerse from './screens/DailyVerse';
 import { DarkTheme } from './themes/DarkTheme';
 import { DefaultTheme } from './themes/DefaultTheme';
 import { useThemeStorage } from './ThemeStorageContext';
+import Events from './screens/Events';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -92,6 +93,18 @@ function DrawerNavigator() {
           )
         }}
       />
+
+      <Drawer.Screen
+        name="Events"
+        component={Events}
+        options={{
+          title: 'Eventos',
+          drawerLabel: 'Eventos',
+          drawerIcon: (props) => (
+            <Ionicons name='calendar' color={colors.text} size={props.size} />
+          )
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -102,7 +115,7 @@ export default function RootStackNavigator() {
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName='DailyVerse'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#0D2744'

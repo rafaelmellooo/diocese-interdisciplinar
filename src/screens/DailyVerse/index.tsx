@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
-import { getRandomVerse } from "../../services/abibliadigital.api";
+import { View, Text, TouchableOpacity } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Verse } from "../../interfaces/Verse";
-import { RootStackParamList } from "../../navigation";
 import { StackScreenProps } from "@react-navigation/stack";
 import { styles } from "./styles";
 import { useTheme } from "@react-navigation/native";
+
+import { Verse } from "../../interfaces/Verse";
+import { RootStackParamList } from "../../navigation";
+import { getRandomVerse } from "../../services/abibliadigital.api";
 
 type DailyVerseProps = StackScreenProps<RootStackParamList, "DailyVerse">;
 
@@ -35,6 +36,8 @@ export default function DailyVerse(props: DailyVerseProps) {
     };
   });
 
+  const TouchableOpacityAnimated = Animated.createAnimatedComponent(TouchableOpacity);
+
   const loadDailyVerse = async () => {
     const responseData = await getRandomVerse();
 
@@ -57,6 +60,7 @@ export default function DailyVerse(props: DailyVerseProps) {
         styles.container,
         {
           backgroundColor: colors.background,
+          alignItems: "center",
         },
       ]}>
       <Animated.Text
@@ -80,6 +84,28 @@ export default function DailyVerse(props: DailyVerseProps) {
         ]}>
         {verse?.text}
       </Animated.Text>
+
+      <TouchableOpacityAnimated
+        style={[{
+          marginTop: 40,
+          borderColor: colors.text,
+          borderWidth: 2,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+          borderRadius: 10
+        }, animatedStyle]}
+        onPress={() => props.navigation.navigate("Home")}
+      >
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 32,
+            marginLeft: 10,
+          }}
+        >
+          Fechar
+        </Text>
+      </TouchableOpacityAnimated>
     </View>
   );
 }
