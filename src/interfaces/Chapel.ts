@@ -9,7 +9,12 @@ export interface Chapel {
         coordinates: number[];
     };
 
-    info: string;
+    info: {
+        title?: string;
+        text?: string;
+    }
 
-    address: string;
+    address?: string;
+
+    contact?: string;
 }

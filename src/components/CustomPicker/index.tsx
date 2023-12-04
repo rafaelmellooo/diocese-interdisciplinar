@@ -45,19 +45,12 @@ const cities = [
 ];
 
 type CustomPickerProps = {
-  onChange: (cityId: number) => void;
+  selectedValue: number | undefined;
+  onChange: (value: number) => void;
 };
 
 export default function CustomPicker(props: CustomPickerProps) {
   const { dark, colors } = useTheme();
-
-  const [selectedCity, setSelectedCity] = useState<number>();
-
-  const handleCityChange = (cityId: number) => {
-    setSelectedCity(cityId);
-
-    props.onChange(cityId);
-  }
 
   return (
     <View
@@ -76,12 +69,12 @@ export default function CustomPicker(props: CustomPickerProps) {
           },
         ]}
         dropdownIconColor={colors.text}
-        selectedValue={selectedCity}
-        onValueChange={(cityId: number) => handleCityChange(cityId)}>
+        selectedValue={props.selectedValue}
+        onValueChange={(value: number) => props.onChange(value)}>
         <Picker.Item
           color={Platform.OS === 'ios' ? colors.text : undefined}
           label="Selecione uma cidade"
-          value={null} />
+          value={undefined} />
         {
           cities.map((city) => (
             <Picker.Item

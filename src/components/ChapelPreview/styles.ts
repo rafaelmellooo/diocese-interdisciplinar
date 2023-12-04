@@ -2,13 +2,15 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     card: {
-        height: 220,
+        height: 250,
         marginHorizontal: 10,
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        padding: 10,
+        padding: 20,
         alignItems: 'center',
-        borderWidth: 1
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderRadius: 10
     },
     title: {
         fontWeight: 'bold',
@@ -23,14 +25,18 @@ export const styles = StyleSheet.create({
         paddingVertical: 6,
         borderRadius: 20
     },
-    scheduleButton: {
+    infoText: {
+        fontSize: 12,
+        textAlign: 'left'
+    },
+    reminderButton: {
         paddingVertical: 10,
         paddingHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 5,
     },
-    scheduleButtonText: {
+    reminderButtonText: {
         fontSize: 16,
         marginLeft: 6
     }

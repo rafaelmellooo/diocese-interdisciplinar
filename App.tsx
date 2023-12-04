@@ -19,6 +19,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [location, setLocation] = useState<Location.LocationObject>();
+  const [theme, setTheme] = useState<ColorSchemeName>();
   const [calendar, setCalendar] = useState<string>();
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -36,6 +37,7 @@ export default function App() {
   const loadingTheme = async () => {
     const theme = await storedTheme.getItem();
 
+    setTheme(theme as ColorSchemeName);
     Appearance.setColorScheme(theme as ColorSchemeName);
   };
 
@@ -74,7 +76,8 @@ export default function App() {
         type: Calendar.EntityTypes.EVENT,
         color: '#1386F2',
         title: 'Diocese de Santos',
-        source: defaultCalendar.source
+        source: defaultCalendar.source,
+        entityType: Calendar.EntityTypes.EVENT
       });
     } else {
       newCalendar = await Calendar.createCalendarAsync({
@@ -130,7 +133,7 @@ export default function App() {
       <StatusBar style="light" />
 
       <LoadingProvider>
-        <ThemeStorageProvider>
+        <ThemeStorageProvider theme={theme}>
           <LocationProvider location={location}>
             <CalendarProvider calendar={calendar}>
               <RootStackNavigator />

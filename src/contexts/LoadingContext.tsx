@@ -7,7 +7,7 @@ type LoadingContextType = {
 
 const LoadingContext = createContext({} as LoadingContextType);
 
-export function LoadingProvider({ children }: React.PropsWithChildren<{}>) {
+export function LoadingProvider({ children }: React.PropsWithChildren) {
     const [loading, setLoading] = React.useState<boolean>(false);
 
     return (

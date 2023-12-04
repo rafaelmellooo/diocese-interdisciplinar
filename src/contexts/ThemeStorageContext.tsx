@@ -1,22 +1,21 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Appearance, ColorSchemeName } from 'react-native';
+import React, { createContext, useContext, useState } from 'react';
+import { ColorSchemeName } from 'react-native';
 
 type ThemeStorageContextType = {
     theme: ColorSchemeName;
     toggleTheme: (theme: ColorSchemeName) => Promise<void>;
 };
 
+type ThemeStorageProviderProps = {
+    theme: ColorSchemeName;
+};
 const ThemeStorageContext = createContext({} as ThemeStorageContextType);
 
-export function ThemeStorageProvider({ children }: React.PropsWithChildren) {
-    const [theme, setTheme] = useState<ColorSchemeName>();
+export function ThemeStorageProvider(props: React.PropsWithChildren<ThemeStorageProviderProps>) {
+    const [theme, setTheme] = useState<ColorSchemeName>(props.theme);
 
     const storedTheme = useAsyncStorage('@theme');
-
-    useEffect(() => {
-        setTheme(Appearance.getColorScheme());
-    }, []);
 
     const toggleTheme = async (theme: ColorSchemeName) => {
         setTheme(theme);
@@ -31,7 +30,7 @@ export function ThemeStorageProvider({ children }: React.PropsWithChildren) {
             theme,
             toggleTheme
         }}>
-            {children}
+            {props.children}
         </ThemeStorageContext.Provider>
     );
 }

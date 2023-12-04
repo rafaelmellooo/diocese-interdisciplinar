@@ -6,35 +6,27 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useTheme } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useTheme } from "@react-navigation/native";
 
 import { styles } from "./styles";
-import { RootStackParamList } from "../../navigation";
 
 type ChapelPreviewProps = {
   name: string;
-  info: string;
+  info: {
+    title?: string;
+    text?: string;
+  };
   distance: string;
-  address: string;
+  address?: string;
+  contact?: string;
 };
 
 export default function ChapelPreview(props: ChapelPreviewProps) {
-  const navigation =
-    useNavigation<StackNavigationProp<RootStackParamList, "Home">>();
-
   const { dark, colors } = useTheme();
 
   const dimensions = useWindowDimensions();
 
-  const handleReminderButtonPress = () => {
-    navigation &&
-      navigation.navigate("NewReminder", {
-        name: props.name,
-        info: props.info,
-        distance: props.distance,
-      });
-  };
+  const handleReminderButtonPress = async () => { };
 
   return (
     <View
@@ -50,8 +42,11 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
         style={{
           flexDirection: "row",
           alignItems: "flex-start",
+          gap: 10
         }}>
-        <View>
+        <View style={{
+          flex: 1
+        }}>
           <Text
             style={[
               styles.title,
@@ -62,20 +57,49 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
             {props.name}
           </Text>
 
+          <Text style={[{
+            fontWeight: 'bold',
+            color: colors.text
+          }]}>
+            {props.info.title}
+          </Text>
+
           <Text
             style={[
               {
                 color: colors.text,
               },
             ]}>
-            {props.info}
+            {props.info.text}
           </Text>
 
           <Text style={[{
+            marginTop: 10,
+            fontWeight: 'bold',
             color: colors.text
           }]}>
+            Endereço
+          </Text>
+
+          <Text
+            style={[
+              {
+                color: colors.text
+              }
+            ]}>
             {props.address}
           </Text>
+
+          {
+            props.contact && (
+              <Text style={[{
+                marginTop: 10,
+                color: colors.text
+              }]}>
+                Telefone: {props.contact}
+              </Text>
+            )
+          }
         </View>
 
         <Text style={[styles.distance, {
@@ -85,13 +109,13 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
         </Text>
       </View>
 
-      <TouchableOpacity style={[styles.scheduleButton, {
+      <TouchableOpacity style={[styles.reminderButton, {
         backgroundColor: colors.primary
       }]} onPress={() => handleReminderButtonPress()}>
         <Ionicons name='notifications' color={dark ? '#0A1D33' : '#F5F3F3'} size={16} />
 
         <Text
-          style={[styles.scheduleButtonText, {
+          style={[styles.reminderButtonText, {
             color: dark ? '#0A1D33' : '#F5F3F3'
           }]}
         >

@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { FadeIn, FadeOut, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
 import CustomCheckbox from '../CustomCheckbox';
 
@@ -123,9 +123,14 @@ const schedules = [
         id: 68,
         value: 'Sábado à noite'
     }
-]
+];
 
-export default function Multiselect() {
+type MultiselectProps = {
+    selectedValues: number[];
+    onChange: (values: number[]) => void;
+};
+
+export default function Multiselect(props: MultiselectProps) {
     const { colors } = useTheme();
 
     const [isOpen, setIsOpen] = React.useState(false);
@@ -155,36 +160,48 @@ export default function Multiselect() {
         }
     };
 
+    const onChange = (scheduleId: number) => {
+        if (props.selectedValues.includes(scheduleId)) {
+            props.onChange(props.selectedValues.filter(selectedValue => selectedValue !== scheduleId));
+        } else {
+            props.onChange([...props.selectedValues, scheduleId]);
+        }
+    }
+
     return (
         <View style={{
             borderTopColor: colors.text,
             borderTopWidth: 2
         }}>
-            <TouchableOpacity
-                activeOpacity={1}
-                style={{
+            <TouchableWithoutFeedback
+                onPress={() => handlePress()}
+            >
+                <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     backgroundColor: colors.background,
                     paddingHorizontal: 20,
                     paddingVertical: 20
-                }}
-                onPress={() => handlePress()}
-            >
-                <Ionicons name="time" size={24} color={colors.text} />
-
-                <Text style={{
-                    color: colors.text,
-                    fontSize: 16,
-                    marginLeft: 10
                 }}>
-                    Selecione os dias da semana
-                </Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}>
+                        <Ionicons name="time" size={24} color={colors.text} />
 
-                <Ionicons name="caret-down" size={16} color={colors.text} style={{
-                    marginLeft: 'auto'
-                }} />
-            </TouchableOpacity>
+                        <Text style={{
+                            color: colors.text,
+                            fontSize: 16,
+                            marginLeft: 10
+                        }}>
+                            Selecione os dias e horários
+                        </Text>
+                    </View>
+
+                    <Ionicons name="caret-down" size={16} color={colors.text} />
+                </View>
+            </TouchableWithoutFeedback>
 
             <Animated.ScrollView
                 showsVerticalScrollIndicator
@@ -192,13 +209,14 @@ export default function Multiselect() {
                     backgroundColor: colors.background,
                 }, animatedStyle]}
                 contentContainerStyle={{
-                    paddingVertical: 10,
                     paddingHorizontal: 10
                 }}
             >
                 {
                     schedules.map((schedule, index) => (
                         <CustomCheckbox
+                            value={props.selectedValues.includes(schedule.id)}
+                            onChange={() => onChange(schedule.id)}
                             key={index}
                             label={schedule.value}
                         />

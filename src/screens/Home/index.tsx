@@ -13,6 +13,7 @@ import { styles } from './styles';
 import { darkMapStyle } from '../../themes/DarkTheme';
 import { defaultMapStyle } from '../../themes/DefaultTheme';
 import Multiselect from '../../components/Multiselect';
+import { useLocation } from '../../contexts/LocationContext';
 
 const markers: Record<string, ImageRequireSource> = {
     'bertioga': require('../../../assets/markers/icon-bertioga.png'),
@@ -29,61 +30,48 @@ const markers: Record<string, ImageRequireSource> = {
 export default function Home() {
     const { dark, colors } = useTheme();
 
-    //const [location, setLocation] = useState<Location.LocationObject>();
+    const { location } = useLocation();
     const [chapels, setChapels] = useState<Chapel[]>([]);
+    const [selectedCity, setSelectedCity] = useState<number>();
+    const [selectedSchedules, setSelectedSchedules] = useState<number[]>([]);
 
     const dimensions = useWindowDimensions();
 
     const scrollViewRef = useRef<ScrollView>(null);
 
     useEffect(() => {
-        getLocation();
-
         loadChapels();
-    }, []);
+    }, [selectedCity, selectedSchedules]);
 
-    const getLocation = async () => {
-        // const { status, canAskAgain } = await Location.requestForegroundPermissionsAsync();
-
-        // if (status !== Location.PermissionStatus.GRANTED) {
-        //     if (!canAskAgain) {
-        //         console.log('A permissão foi negada e não pode ser solicitada novamente. Você precisará ir às configurações para alterar a permissão');
-        //         return;
-        //     }
-
-        //     console.log('Não foi possível acessar a localização, a permissão foi negada');
-        //     return;
-        // }
-
-        // const location = await Location.getCurrentPositionAsync({});
-        // setLocation(location);
-    }
-
-    // if (!location) {
-    //     return (
-    //         <View style={styles.container}>
-    //             <Text>Waiting for location...</Text>
-    //         </View>
-    //     );
-    // }
-
-    const loadChapels = async (city?: number) => {
+    const loadChapels = async () => {
         const responseData = await findChapels({
-            latitude: -23.9675956,
-            longitude: -46.3377967,
-            //city,
-            city: 56
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            city: selectedCity,
+            schedules: selectedSchedules
         });
 
         const chapels = responseData.features.map(item => {
-            const $ = cheerio.load(item.properties.fulladdress);
-
             const city = /icon-(?<city>[a-z-]+)\.png$/.exec(item.properties.icon)?.groups?.city;
+
+            let contentData: RegExpExecArray | null = null;
+            try {
+                contentData = /(?<!(?:.|\s)+)(?<infoTitle>^[^:]+):\s+[MATRIZ:\s+]*(?<infoText>(?:.|\s)+)\s+(?:Endereço):\s+(?<address>(?:.|\s)+SP)\s+(?<contact>\(\d{2}\)\s*[\d-]+)*/gmi.exec(
+                    cheerio.load(
+                        cheerio.load(item.properties.fulladdress).html().replace(/<br>/gm, '\n')
+                    ).text().replace(/AVISO IMPORTANTE.+/, '')
+                );
+            } catch (error) {
+
+            }
 
             const chapel: Chapel = {
                 name: cheerio.load(item.properties.name).text(),
 
-                info: $('b').first().text() + "\n" + "Olá",
+                info: {
+                    title: contentData?.groups?.infoTitle,
+                    text: contentData?.groups?.infoText,
+                },
 
                 distance: item.properties.distance,
 
@@ -91,7 +79,9 @@ export default function Home() {
 
                 city: city,
 
-                address: $('b').last().text()
+                address: contentData?.groups?.address,
+
+                contact: contentData?.groups?.contact
             };
 
             return chapel;
@@ -116,17 +106,17 @@ export default function Home() {
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 initialRegion={{
-                    latitude: -23.9675956,
+                    latitude: location.coords.latitude,
                     latitudeDelta: 0.04,
-                    longitude: -46.3377967,
+                    longitude: location.coords.longitude,
                     longitudeDelta: 0.04
                 }}
                 customMapStyle={dark ? darkMapStyle : defaultMapStyle}
             >
                 <Marker
                     coordinate={{
-                        latitude: -23.9675956,
-                        longitude: -46.3377967
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude
                     }}
                     title="Você"
                 />
@@ -154,10 +144,14 @@ export default function Home() {
                 width: dimensions.width
             }}>
                 <CustomPicker
-                    onChange={(cityId) => loadChapels(cityId)}
+                    selectedValue={selectedCity}
+                    onChange={cityId => setSelectedCity(cityId)}
                 />
 
-                <Multiselect />
+                <Multiselect
+                    selectedValues={selectedSchedules}
+                    onChange={schedules => setSelectedSchedules(schedules)}
+                />
             </View>
 
             <ScrollView
@@ -178,6 +172,7 @@ export default function Home() {
                         info={chapel.info}
                         distance={chapel.distance}
                         address={chapel.address}
+                        contact={chapel.contact}
                     />
                 ))}
             </ScrollView>

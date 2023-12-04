@@ -5,12 +5,12 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 type CustomCheckboxProps = {
     label: string;
+    value: boolean;
+    onChange: (value: boolean) => void;
 };
 
 export default function CustomCheckbox(props: CustomCheckboxProps) {
     const { colors } = useTheme();
-
-    const [value, setValue] = React.useState(false);
 
     return (
         <View style={{
@@ -23,9 +23,9 @@ export default function CustomCheckbox(props: CustomCheckboxProps) {
                     alignItems: 'center',
                     padding: 10
                 }}
-                onPress={() => setValue(!value)}
+                onPress={() => props.onChange(!props.value)}
             >
-                <Checkbox value={value} color={colors.primary} />
+                <Checkbox value={props.value} color={colors.primary} />
                 <Text style={{
                     color: colors.text,
                     fontWeight: 'bold',

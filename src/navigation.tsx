@@ -1,4 +1,4 @@
-import { NavigationContainer, useTheme } from '@react-navigation/native';
+import { NavigationContainer, NavigatorScreenParams, useTheme } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerToggleButton } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons'
@@ -8,23 +8,23 @@ import Reminders from './screens/Reminders';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomDrawer from './components/CustomDrawer';
-import NewReminder from './screens/NewReminder';
 import DailyVerse from './screens/DailyVerse';
 import { DarkTheme } from './themes/DarkTheme';
 import { DefaultTheme } from './themes/DefaultTheme';
 import { useThemeStorage } from './contexts/ThemeStorageContext';
 import Events from './screens/Events';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<DrawerParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
+type DrawerParamList = {
+  Finder: undefined;
+  Schedules: undefined;
+  Events: undefined;
+};
+
 export type RootStackParamList = {
-  Home: undefined;
-  NewReminder: {
-    name: string;
-    info: string;
-    distance: string;
-  };
+  Home: NavigatorScreenParams<DrawerParamList>;
   DailyVerse: undefined;
 };
 
@@ -35,7 +35,7 @@ function DrawerNavigator() {
 
   return (
     <Drawer.Navigator
-      initialRouteName='Events'
+      initialRouteName='Finder'
       drawerContent={(props) => (
         <CustomDrawer {...props} />
       )}
@@ -133,14 +133,6 @@ export default function RootStackNavigator() {
             headerShown: false,
           }}
           component={DrawerNavigator}
-        />
-
-        <Stack.Screen
-          name="NewReminder"
-          component={NewReminder}
-          options={{
-            title: 'Novo Lembrete',
-          }}
         />
 
         <Stack.Screen

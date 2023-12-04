@@ -23,7 +23,9 @@ export default function DailyVerse(props: DailyVerseProps) {
   useEffect(() => {
     loadDailyVerse().then(() => {
       setTimeout(() => {
-        props.navigation.navigate("Home");
+        props.navigation.navigate("Home", {
+          screen: "Finder"
+        });
       }, 5000);
     });
   }, []);
@@ -94,7 +96,9 @@ export default function DailyVerse(props: DailyVerseProps) {
           paddingVertical: 10,
           borderRadius: 10
         }, animatedStyle]}
-        onPress={() => props.navigation.navigate("Home")}
+        onPress={() => props.navigation.navigate("Home", {
+          screen: 'Finder'
+        })}
       >
         <Text
           style={{
