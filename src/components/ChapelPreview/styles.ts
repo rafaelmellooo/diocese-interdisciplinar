@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        padding: 20,
+        padding: 15,
         alignItems: 'center',
         justifyContent: 'space-between',
         borderWidth: 1,
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         marginBottom: 10
     },
     distance: {
-        fontSize: 18,
+        fontSize: 14,
         color: '#1386F2',
         borderWidth: 2,
         paddingHorizontal: 12,

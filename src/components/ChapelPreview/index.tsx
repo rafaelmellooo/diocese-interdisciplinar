@@ -47,31 +47,50 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
           backgroundColor: colors.card,
           borderColor: colors.border,
         },
-      ]}>
+    ]}>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          gap: 10
+          width: dimensions.width * 0.7,
+          rowGap: 10
         }}>
         <View style={{
-          flex: 1
+          width: dimensions.width * 0.7,
+          flexDirection: "row",
+          columnGap: 12,
         }}>
-          <Text
-            style={[
-              styles.title,
-              {
-                color: dark ? "#1386F2" : "#0D2744",
-              },
-            ]}>
-            {props.name}
-          </Text>
+          <View style={{
+            flex: 2,
+          }}>
+            <Text
+              style={[
+                styles.title,
+                {
+                  color: dark ? "#1386F2" : "#0D2744",
+                  marginBottom: 0,
+                },
+              ]}>
+              {props.name}
+            </Text>
+          </View>
 
-          <ScrollView
+          <View style={{
+            flex: 1,
+          }}>
+            <Text style={[styles.distance, {
+              borderColor: colors.primary,
+              textAlign: "center",
+            }]}>
+              {props.distance}
+            </Text>
+          </View>
+        </View>
+
+        <ScrollView
             style={{
-              height: 100
+              height: 120,
             }}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
+            persistentScrollbar={true}
           >
             <Text style={[{
               fontWeight: 'bold',
@@ -116,14 +135,7 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
                 </Text>
               )
             }
-          </ScrollView>
-        </View>
-
-        <Text style={[styles.distance, {
-          borderColor: colors.primary,
-        }]}>
-          {props.distance}
-        </Text>
+        </ScrollView>
       </View>
 
       <TouchableOpacity style={[styles.reminderButton, {
