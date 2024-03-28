@@ -13,6 +13,6 @@ export const styles = StyleSheet.create({
     },
     horizontalList: {
         position: 'absolute',
-        bottom: 10
+        bottom: 20
     }
 });

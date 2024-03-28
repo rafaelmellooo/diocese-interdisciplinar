@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Image, ImageRequireSource, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import * as Location from 'expo-location';
 import { useTheme } from '@react-navigation/native';
 import * as cheerio from 'cheerio';
@@ -10,6 +10,7 @@ import ChapelPreview from '../../components/ChapelPreview';
 import { findChapels } from '../../services/diocesedesantos.api';
 import CustomPicker from '../../components/CustomPicker';
 import { styles } from './styles';
+import { styles as chapelStyles } from '../../components/ChapelPreview/styles'
 import { darkMapStyle } from '../../themes/DarkTheme';
 import { defaultMapStyle } from '../../themes/DefaultTheme';
 import Multiselect from '../../components/Multiselect';
@@ -37,7 +38,7 @@ export default function Home() {
 
     const dimensions = useWindowDimensions();
 
-    const scrollViewRef = useRef<ScrollView>(null);
+    const flatListRef = useRef<FlatList>(null);
 
     useEffect(() => {
         loadChapels();
@@ -91,10 +92,10 @@ export default function Home() {
     }
 
     const handleMarkerPress = (index: number) => {
-        scrollViewRef.current?.scrollTo({
-            x: (index * (dimensions.width * 0.8)) + (index * 20),
-            y: 0,
-            animated: true
+        flatListRef.current?.scrollToIndex({
+            index: index,
+            animated: true,
+            viewPosition: 0.5
         });
     }
 
@@ -154,28 +155,30 @@ export default function Home() {
                 />
             </View>
 
-            <ScrollView
-                ref={scrollViewRef}
+            <FlatList
+                ref={flatListRef}
+                data={chapels}
+                renderItem={({item, index}) => <ChapelPreview
+                    key={index}
+                    name={item.name}
+                    info={item.info}
+                    distance={item.distance}
+                    address={item.address}
+                    contact={item.contact}
+                />}
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-                snapToAlignment="center"
                 style={styles.horizontalList}
                 contentContainerStyle={{
                     paddingHorizontal: dimensions.width * 0.1 - 10
                 }}
-            >
-                {chapels.map((chapel, index) => (
-                    <ChapelPreview
-                        key={index}
-                        name={chapel.name}
-                        info={chapel.info}
-                        distance={chapel.distance}
-                        address={chapel.address}
-                        contact={chapel.contact}
-                    />
-                ))}
-            </ScrollView>
+                getItemLayout={(_, index) => (
+                    {
+                        length: (dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2),
+                        offset: ((dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2)) * index,
+                        index
+                    }
+                )}
+            />
         </View>
     );
 }
