@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import * as Location from 'expo-location';
 import { useTheme } from '@react-navigation/native';
 import * as cheerio from 'cheerio';
@@ -37,6 +37,8 @@ export default function Home() {
     const [selectedCity, setSelectedCity] = useState<number>(59);
     const [selectedSchedules, setSelectedSchedules] = useState<number[]>([]);
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [opacity, setOpacity] = useState<number>(1);
 
     const dimensions = useWindowDimensions();
 
@@ -46,7 +48,13 @@ export default function Home() {
         loadChapels();
     }, [selectedCity, selectedSchedules]);
 
+    useEffect(() => {
+        setOpacity(isLoading ? 0.5 : 1);
+    }, [isLoading])
+
     const loadChapels = async () => {
+        setIsLoading(true);
+        
         const responseData = await findChapels({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -91,6 +99,8 @@ export default function Home() {
         });
 
         setChapels(chapels);
+        setIsLoading(false);
+        setIsCollapsed(false);
     }
 
     const handleMarkerPress = (index: number) => {
@@ -104,11 +114,13 @@ export default function Home() {
 
     return (
         <View style={[styles.container, {
-            backgroundColor: colors.background
+            backgroundColor: colors.background,
         }]}>
             <MapView
                 provider={PROVIDER_GOOGLE}
-                style={styles.map}
+                style={[styles.map, {
+                    opacity: opacity
+                }]}
                 initialRegion={{
                     latitude: location.coords.latitude,
                     latitudeDelta: 0.04,
@@ -159,6 +171,17 @@ export default function Home() {
                 />
            </View>
 
+            <ActivityIndicator
+                style={{
+                    position: 'absolute',
+                    left: dimensions.width * 0.5 - 20,
+                    bottom: dimensions.height * 0.5,
+                }}
+                size="large"
+                color={colors.primary}
+                animating={isLoading}
+            />
+            
             <CollapsibleView
                 title={
                     <Text
@@ -175,22 +198,22 @@ export default function Home() {
                 }
                 expanded={!isCollapsed}
                 noArrow
-                unmountOnCollapse
                 activeOpacityFeedback={1}
                 style={[styles.horizontalList, {
-                    borderWidth: 0
+                    borderWidth: 0,
+                    opacity: opacity
                 }]}
             >
                 <FlatList
                     ref={flatListRef}
                     data={chapels}
                     renderItem={({item, index}) => <ChapelPreview
-                    key={index}
-                    name={item.name}
-                    info={item.info}
-                    distance={item.distance}
-                    address={item.address}
-                    contact={item.contact}
+                        key={index}
+                        name={item.name}
+                        info={item.info}
+                        distance={item.distance}
+                        address={item.address}
+                        contact={item.contact}
                     />}
                     horizontal
                     contentContainerStyle={{
