@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Text,
   View,
@@ -24,7 +24,7 @@ type ChapelPreviewProps = {
   contact?: string;
 };
 
-export default function ChapelPreview(props: ChapelPreviewProps) {
+const ChapelPreview = (props: ChapelPreviewProps) => {
   const { dark, colors } = useTheme();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, "Home">>();
@@ -154,3 +154,5 @@ export default function ChapelPreview(props: ChapelPreviewProps) {
     </View>
   );
 }
+
+export default memo(ChapelPreview);
