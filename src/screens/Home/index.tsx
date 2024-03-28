@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import * as Location from 'expo-location';
 import { useTheme } from '@react-navigation/native';
 import * as cheerio from 'cheerio';
+import CollapsibleView from '@eliav2/react-native-collapsible-view';
 
 import { Chapel } from '../../interfaces/Chapel';
 import ChapelPreview from '../../components/ChapelPreview';
@@ -35,6 +36,7 @@ export default function Home() {
     const [chapels, setChapels] = useState<Chapel[]>([]);
     const [selectedCity, setSelectedCity] = useState<number>(59);
     const [selectedSchedules, setSelectedSchedules] = useState<number[]>([]);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
     const dimensions = useWindowDimensions();
 
@@ -97,6 +99,7 @@ export default function Home() {
             animated: true,
             viewPosition: 0.5
         });
+        setIsCollapsed(false);
     }
 
     return (
@@ -113,6 +116,7 @@ export default function Home() {
                     longitudeDelta: 0.04
                 }}
                 customMapStyle={dark ? darkMapStyle : defaultMapStyle}
+                onPress={() => setIsCollapsed(true)}
             >
                 <Marker
                     coordinate={{
@@ -153,32 +157,54 @@ export default function Home() {
                     selectedValues={selectedSchedules}
                     onChange={schedules => setSelectedSchedules(schedules)}
                 />
-            </View>
+           </View>
 
-            <FlatList
-                ref={flatListRef}
-                data={chapels}
-                renderItem={({item, index}) => <ChapelPreview
+            <CollapsibleView
+                title={
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            padding: 10,
+                            color: colors.primary,
+                            textDecorationLine: 'underline'
+                        }}
+                        onPress={() => setIsCollapsed(!isCollapsed)} 
+                    >
+                        {isCollapsed ? "Mostrar" : "Ocultar"} cards
+                    </Text>
+                }
+                expanded={!isCollapsed}
+                noArrow
+                unmountOnCollapse
+                activeOpacityFeedback={1}
+                style={[styles.horizontalList, {
+                    borderWidth: 0
+                }]}
+            >
+                <FlatList
+                    ref={flatListRef}
+                    data={chapels}
+                    renderItem={({item, index}) => <ChapelPreview
                     key={index}
                     name={item.name}
                     info={item.info}
                     distance={item.distance}
                     address={item.address}
                     contact={item.contact}
-                />}
-                horizontal
-                style={styles.horizontalList}
-                contentContainerStyle={{
-                    paddingHorizontal: dimensions.width * 0.1 - 10
-                }}
-                getItemLayout={(_, index) => (
-                    {
-                        length: (dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2),
-                        offset: ((dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2)) * index,
-                        index
-                    }
-                )}
-            />
+                    />}
+                    horizontal
+                    contentContainerStyle={{
+                        paddingHorizontal: dimensions.width * 0.1 - 40
+                    }}
+                    getItemLayout={(_, index) => (
+                        {
+                            length: (dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2),
+                            offset: ((dimensions.width * 0.8) + (chapelStyles.card.marginHorizontal * 2)) * index,
+                            index
+                        }
+                    )}
+                />
+            </CollapsibleView>
         </View>
     );
 }
