@@ -215,7 +215,10 @@ export default function Home() {
                         address={item.address}
                         contact={item.contact}
                     />}
+                    removeClippedSubviews
+                    initialNumToRender={3}
                     horizontal
+                    showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{
                         paddingHorizontal: dimensions.width * 0.1 - 40
                     }}

@@ -72,7 +72,8 @@ function DrawerNavigator() {
         drawerLabelStyle: {
           color: colors.text,
           fontWeight: 'bold',
-        }
+        },
+        swipeEnabled: false
       }}
     >
       <Drawer.Screen
