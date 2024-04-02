@@ -52,7 +52,7 @@ const ChapelPreview = (props: ChapelPreviewProps) => {
         style={{
           width: dimensions.width * 0.7,
           rowGap: 10
-        }}>
+      }}>
         <View style={{
           width: dimensions.width * 0.7,
           flexDirection: "row",

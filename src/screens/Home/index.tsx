@@ -200,8 +200,10 @@ export default function Home() {
                 noArrow
                 activeOpacityFeedback={1}
                 style={[styles.horizontalList, {
+                    width: dimensions.width - (chapelStyles.card.marginHorizontal * 2),
                     borderWidth: 0,
-                    opacity: opacity
+                    opacity: opacity,
+                    flex: 1
                 }]}
             >
                 <FlatList
