@@ -39,7 +39,7 @@ export default function Reminders() {
                 paddingHorizontal: 20
             }}
         >
-            {
+            {reminders.length ?
                 reminders.map((reminder, index) => (
                     <View style={[styles.card, {
                         backgroundColor: colors.card,
@@ -50,6 +50,13 @@ export default function Reminders() {
                         <Text style={{ color: colors.text, marginTop: 5, ...(!reminder.address && {fontStyle: 'italic'}) }}>{reminder.address || "Endereço não informado"}</Text>
                     </View>
                 ))
+                :
+                <View style={[styles.card, {
+                    alignItems: 'center',
+                    borderWidth: 0
+                }]}>
+                    <Text style={{ fontSize: 16, color: colors.border }}>Você ainda não possui lembretes salvos</Text>
+                </View>
             }
         </ScrollView>
     );

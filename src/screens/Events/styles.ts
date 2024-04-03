@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     card: {
         marginVertical: 10,
         padding: 20,
-        
         borderWidth: 1,
         borderRadius: 10,
     },
@@ -22,7 +21,7 @@ export const styles = StyleSheet.create({
 
     cardTitleText: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 16,
         flex: 1
     }
 });
