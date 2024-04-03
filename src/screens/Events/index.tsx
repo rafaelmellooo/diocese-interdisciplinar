@@ -8,20 +8,22 @@ import { Event } from '../../interfaces/Event';
 import { getEvents } from '../../services/diocesedesantos.api';
 import { useCalendar } from '../../contexts/CalendarContext';
 import EventCard from '../../components/EventCard';
+import EmptyListComponent from '../../components/EmptyListComponent';
 
 export type EventElement = Event & {isAdded: boolean};
 
 export default function Events() {
-    const { colors } = useTheme();
     const { calendar } = useCalendar();
 
     const [events, setEvents] = useState<EventElement[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useFocusEffect(useCallback(() => {
         loadEvents();
     }, []));
 
     const loadEvents = async () => {
+        setIsLoading(true);
         const responseData = await getEvents();
 
         const events = responseData.data.map(item => {
@@ -36,6 +38,7 @@ export default function Events() {
         });
 
         setEvents(events);
+        setIsLoading(false);
     };
 
     const addToCalendar = async (title: string, date: Date, index: number) => {
@@ -63,6 +66,9 @@ export default function Events() {
                 paddingVertical: 10,
                 paddingHorizontal: 20
             }}
+            refreshing={isLoading}
+            onRefresh={() => {}}
+            ListEmptyComponent={<EmptyListComponent text="Nenhum evento encontrado"/>}
         />
     );
 }

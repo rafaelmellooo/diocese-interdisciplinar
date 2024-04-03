@@ -56,7 +56,7 @@ export default function EventCard ({event, index, addToCalendar}: {event: EventE
                     disabled={event.isAdded}
                     onPress={() => handleAddToCalendar()}
                 >
-                    <Ionicons name={event.isAdded ? "checkmark-circle" : "calendar-outline"} color={event.isAdded ? "green" : colors.text} size={20} />
+                    <Ionicons name={event.isAdded ? "checkmark-circle" : "calendar-sharp"} color={event.isAdded ? "green" : colors.text} size={20} />
                     <Text style={{
                         marginLeft: 5,
                         color: event.isAdded ? "green" : colors.text,
