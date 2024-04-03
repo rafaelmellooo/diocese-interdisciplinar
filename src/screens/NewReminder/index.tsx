@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -44,32 +44,38 @@ export default function NewReminder(props: NewScheduleProps) {
     
     const handlePress = async () => {
         const reminders = await storedReminders.getItem();
+        const {hours, minutes} = time.toObject();
+        const datetime = date.set({hours, minutes});
+        const newReminder = {
+            name: props.route.params.name,
+            address: props.route.params.address,
+            datetime: datetime.toISOString()
+        }
 
         if (reminders) {
             await storedReminders.setItem(JSON.stringify([
                 ...JSON.parse(reminders),
-                {
-                    name: props.route.params.name,
-                    address: props.route.params.address
-                }
+                newReminder
             ]));
         } else {
-            await storedReminders.setItem(JSON.stringify([{
-                name: props.route.params.name,
-                address: props.route.params.address
-            }]));
+            await storedReminders.setItem(JSON.stringify([newReminder]));
         }
 
-        const {hours, minutes} = time.toObject();
-        const finalDate = date.set({hours, minutes}).toDate();
-        
         await Calendar.createEventAsync(calendar, {
             accessLevel: Calendar.CalendarAccessLevel.OWNER,
             title: props.route.params.name,
-            startDate: finalDate,
-            endDate: finalDate,
+            startDate: datetime.toDate(),
+            endDate: datetime.toDate(),
             status: Calendar.EventStatus.CONFIRMED,
             ...(props.route.params.address && {location: props.route.params.address})
+        }).then(() => {
+            Alert.alert('Sucesso!', 'O lembrete foi salvo na sua agenda.', [
+                {text: 'OK', onPress: () => {}},
+            ]);
+        }).catch(() => {
+            Alert.alert('Ops!', 'Não foi possível salvar o lembrete na sua agenda.', [
+                {text: 'OK', onPress: () => {}},
+            ]);
         });
 
         props.navigation.goBack();
@@ -108,7 +114,7 @@ export default function NewReminder(props: NewScheduleProps) {
                         }} 
                         onPressOut={() => setShowDatePicker(true)}
                     >
-                        <Text style={{fontSize: 20, fontWeight: 'normal'}}>{date.format("DD/MM/YY")}</Text>
+                        <Text style={{fontSize: 20, fontWeight: 'normal', color: dark ? '#F5F3F3' : colors.text}}>{date.format("DD/MM/YY")}</Text>
                         <Ionicons name='create-outline' color={colors.primary} size={20} />
                     </TouchableOpacity>
                 </View>
@@ -132,7 +138,7 @@ export default function NewReminder(props: NewScheduleProps) {
                         }}
                         onPressOut={() => setShowTimePicker(true)}
                     >
-                        <Text style={{fontSize: 20, fontWeight: 'normal'}}>{time.format("HH:mm")}</Text>
+                        <Text style={{fontSize: 20, fontWeight: 'normal', color: dark ? '#F5F3F3' : colors.text}}>{time.format("HH:mm")}</Text>
                         <Ionicons name='create-outline' color={colors.primary} size={20} />
                     </TouchableOpacity>
                 </View>
@@ -141,9 +147,9 @@ export default function NewReminder(props: NewScheduleProps) {
             <View>
                 {showTimePicker &&
                     <RNDateTimePicker
-                    mode="time"
-                    value={time.toDate()}
-                    onChange={onTimeChange}
+                        mode="time"
+                        value={time.toDate()}
+                        onChange={onTimeChange}
                     />
                 }
 
@@ -151,6 +157,7 @@ export default function NewReminder(props: NewScheduleProps) {
                     <RNDateTimePicker
                         mode="date"
                         value={date.toDate()}
+                        minimumDate={moment().toDate()}
                         onChange={onDateChange}
                     />
                 }
@@ -163,7 +170,7 @@ export default function NewReminder(props: NewScheduleProps) {
                 paddingHorizontal: 20,
             }}>
                 <Text style={{
-                    color: dark ? '#0A1D33' : '#F5F3F3'
+                    color: '#F5F3F3'
                 }}>Confirmar</Text>
             </TouchableOpacity>
         </View>

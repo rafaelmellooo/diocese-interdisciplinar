@@ -6,6 +6,7 @@ import { Reminder } from '../../interfaces/Reminder';
 import { styles } from './styles';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import moment from 'moment';
 
 export default function Reminders() {
     const { dark, colors } = useTheme();
@@ -45,7 +46,8 @@ export default function Reminders() {
                         borderColor: colors.border
                     }]} key={index}>
                         <Text style={[styles.cardTitle, { color: colors.text }]}>{reminder.name}</Text>
-                        <Text style={[{ color: colors.text }]}>Endereço: {reminder.address}</Text>
+                        <Text style={{ color: colors.text }}>{moment(reminder.datetime).format("DD/MM/YY HH:mm")}</Text>
+                        <Text style={{ color: colors.text, marginTop: 5, ...(!reminder.address && {fontStyle: 'italic'}) }}>{reminder.address || "Endereço não informado"}</Text>
                     </View>
                 ))
             }
