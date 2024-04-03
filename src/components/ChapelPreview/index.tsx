@@ -141,11 +141,11 @@ const ChapelPreview = (props: ChapelPreviewProps) => {
       <TouchableOpacity style={[styles.reminderButton, {
         backgroundColor: colors.primary
       }]} onPress={() => handleReminderButtonPress()}>
-        <Ionicons name='notifications' color={dark ? '#0A1D33' : '#F5F3F3'} size={16} />
+        <Ionicons name='notifications' color='#F5F3F3' size={16} />
 
         <Text
           style={[styles.reminderButtonText, {
-            color: dark ? '#0A1D33' : '#F5F3F3'
+            color: '#F5F3F3'
           }]}
         >
           Criar Lembrete
