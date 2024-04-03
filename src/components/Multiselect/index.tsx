@@ -181,25 +181,26 @@ export default function Multiselect(props: MultiselectProps) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     backgroundColor: colors.background,
-                    paddingHorizontal: 20,
-                    paddingVertical: 20
+                    paddingLeft: 18,
+                    paddingRight: 25,
+                    paddingVertical: 15,
                 }}>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
                     }}>
-                        <Ionicons name="time" size={24} color={colors.text} />
+                        <Ionicons name="time" size={20} color={colors.text} />
 
                         <Text style={{
                             color: colors.text,
                             fontSize: 16,
-                            marginLeft: 10
+                            marginLeft: 13
                         }}>
                             Selecione os dias e horários
                         </Text>
                     </View>
 
-                    <Ionicons name="caret-down" size={16} color={colors.text} />
+                    <Ionicons name="caret-down" size={12} color={colors.text} />
                 </View>
             </TouchableWithoutFeedback>
 

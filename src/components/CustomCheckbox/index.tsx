@@ -14,7 +14,7 @@ export default function CustomCheckbox(props: CustomCheckboxProps) {
 
     return (
         <View style={{
-            marginVertical: 10
+            marginVertical: 5,
         }}>
             <TouchableOpacity
                 style={{

@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 10
+        paddingLeft: 15,
+        paddingRight: 5
     },
     pickerContainer: {
         flex: 1

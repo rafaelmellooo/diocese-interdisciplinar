@@ -60,7 +60,7 @@ export default function CustomPicker(props: CustomPickerProps) {
           backgroundColor: colors.background,
         },
       ]}>
-      <Ionicons lineBreakStrategyIOS="hangul-word" name="location" size={24} color={colors.text} />
+      <Ionicons lineBreakStrategyIOS="hangul-word" name="location" size={20} color={colors.text} />
       <Picker
         style={[
           styles.pickerContainer,
