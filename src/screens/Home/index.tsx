@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { ActivityIndicator, FlatList, Image, ImageRequireSource, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import * as Location from 'expo-location';
+import { ActivityIndicator, FlatList, Image, ImageRequireSource, Text, View, useWindowDimensions } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import * as cheerio from 'cheerio';
 import CollapsibleView from '@eliav2/react-native-collapsible-view';

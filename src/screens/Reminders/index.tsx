@@ -35,7 +35,7 @@ export default function Reminders() {
             borderColor: colors.border
         }]}>
             <Text style={[styles.cardTitle, { color: colors.text }]}>{name}</Text>
-            <Text style={{ color: colors.text }}>{moment(datetime).format("DD/MM/YY HH:mm")}</Text>
+            <Text style={{ color: colors.text }}>{moment(datetime).format("DD/MM/YY [às] HH:mm")}</Text>
             <Text style={{ color: colors.text, marginTop: 5, ...(!address && {fontStyle: 'italic'}) }}>{address || "Endereço não informado"}</Text>
         </View>
     )

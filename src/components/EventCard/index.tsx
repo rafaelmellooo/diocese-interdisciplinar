@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { styles } from "../../screens/Events/styles";
 import { EventElement } from '../../screens/Events';
+import moment from 'moment';
 
 export default function EventCard ({event, index, addToCalendar}: {event: EventElement, index: number, addToCalendar: (title: string, date: Date, index: number) => Promise<void>}) {
     const { colors } = useTheme();
@@ -35,7 +36,7 @@ export default function EventCard ({event, index, addToCalendar}: {event: EventE
                         {event.title}
                     </Text>
                     <TouchableOpacity
-                        onPress={() => handleShareButtonPress(event.title, event.date.toLocaleDateString())}
+                        onPress={() => handleShareButtonPress(event.title, moment(event.date).format("DD/MM/YY [às] HH:mm"))}  
                     >
                         <Ionicons name="share-social" color={colors.text} size={20} />
                     </TouchableOpacity>
@@ -45,7 +46,7 @@ export default function EventCard ({event, index, addToCalendar}: {event: EventE
                         color: colors.text
                     }]}
                 >
-                    {event.date.toLocaleDateString()} - {event.date.toLocaleDateString()}
+                    {moment(event.date).format("DD/MM/YY [às] HH:mm")}
                 </Text>
                 <TouchableOpacity
                     style={{
