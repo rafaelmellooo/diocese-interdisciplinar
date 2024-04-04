@@ -51,6 +51,7 @@ type GetEventsResponse = {
         id: number;
         title: string;
         start: string;
+        location: {location?: string}[];
     }[];
 };
 

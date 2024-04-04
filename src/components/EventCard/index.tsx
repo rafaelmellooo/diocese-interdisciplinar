@@ -5,18 +5,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { styles } from "../../screens/Events/styles";
 import { EventElement } from '../../screens/Events';
 import moment from 'moment';
+import { Event } from '../../interfaces/Event';
 
-export default function EventCard ({event, index, addToCalendar}: {event: EventElement, index: number, addToCalendar: (title: string, date: Date, index: number) => Promise<void>}) {
+export default function EventCard ({event, index, addToCalendar}: {event: EventElement, index: number, addToCalendar: (event: EventElement, index: number) => Promise<void>}) {
     const { colors } = useTheme();
 
-    const handleShareButtonPress = (title: string, date: string) => {
+    const handleShareButtonPress = (event: Event) => {
         Share.share({
-            message: `Evento da Diocese de Santos\n${title} - ${date}`,
+            message: `Evento da Diocese de Santos\n${event.title} - ${moment(event.date).format("DD/MM/YY [às] HH:mm")}\n${event.address}`,
         })
     };
 
     const handleAddToCalendar = async () => {
-        await addToCalendar(event.title, event.date, index)
+        await addToCalendar(event, index)
     };
     
     return (
@@ -36,18 +37,13 @@ export default function EventCard ({event, index, addToCalendar}: {event: EventE
                         {event.title}
                     </Text>
                     <TouchableOpacity
-                        onPress={() => handleShareButtonPress(event.title, moment(event.date).format("DD/MM/YY [às] HH:mm"))}  
+                        onPress={() => handleShareButtonPress(event)}  
                     >
                         <Ionicons name="share-social" color={colors.text} size={20} />
                     </TouchableOpacity>
                 </View>
-                <Text
-                    style={[{
-                        color: colors.text
-                    }]}
-                >
-                    {moment(event.date).format("DD/MM/YY [às] HH:mm")}
-                </Text>
+                <Text style={[{ color: colors.text }]}>{moment(event.date).format("DD/MM/YY [às] HH:mm")}</Text>
+                <Text style={{ color: colors.text, marginTop: 5, ...(!event.address && {fontStyle: 'italic'}) }}>{event.address || "Endereço não informado"}</Text>
                 <TouchableOpacity
                     style={{
                         flexDirection: 'row',

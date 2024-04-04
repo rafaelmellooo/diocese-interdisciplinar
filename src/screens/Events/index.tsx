@@ -33,6 +33,7 @@ export default function Events() {
                 id: item.id,
                 title: item.title,
                 date: new Date(item.start),
+                address: item.location[0]?.location,
                 isAdded: savedEventTitles.includes(item.title),
             }
 
@@ -43,13 +44,14 @@ export default function Events() {
         setIsLoading(false);
     };
 
-    const addToCalendar = async (title: string, date: Date, index: number) => {
+    const addToCalendar = async (event: EventElement, index: number) => {
         await Calendar.createEventAsync(calendar, {
             accessLevel: Calendar.CalendarAccessLevel.OWNER,
-            title: title,
-            startDate: date,
-            endDate: date,
-            status: Calendar.EventStatus.CONFIRMED
+            title: event.title,
+            startDate: event.date,
+            endDate: event.date,
+            status: Calendar.EventStatus.CONFIRMED,
+            ...(event.address && {location: event.address})
         });
         
         let eventsArr = [...events];
