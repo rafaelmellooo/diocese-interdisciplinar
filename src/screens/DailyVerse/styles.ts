@@ -4,15 +4,15 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20
+        margin: 30
     },
     title: {
-        fontSize: 40,
+        fontSize: 32,
         fontWeight: 'bold',
         textAlign: 'center'
     },
     text: {
-        fontSize: 28,
+        fontSize: 24,
         textAlign: 'justify'
     }
 });

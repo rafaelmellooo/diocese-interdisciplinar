@@ -89,7 +89,8 @@ export default function DailyVerse(props: DailyVerseProps) {
 
       <TouchableOpacityAnimated
         style={[{
-          marginTop: 40,
+          position: "absolute",
+          bottom: 20,
           borderColor: colors.text,
           borderWidth: 2,
           paddingHorizontal: 20,
@@ -103,8 +104,7 @@ export default function DailyVerse(props: DailyVerseProps) {
         <Text
           style={{
             color: colors.text,
-            fontSize: 32,
-            marginLeft: 10,
+            fontSize: 20,
           }}
         >
           Fechar
