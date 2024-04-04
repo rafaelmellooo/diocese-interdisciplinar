@@ -1,4 +1,6 @@
 import axios from "axios";
+import * as Calendar from 'expo-calendar';
+import moment from "moment";
 
 const api = axios.create({
   baseURL: "https://www.diocesedesantos.com.br",
@@ -56,4 +58,12 @@ export async function getEvents() {
     const response = await api.get<GetEventsResponse>('/index.php?option=com_dpcalendar&view=events');
 
     return response.data;
+}
+
+export async function getCalendarSavedEvents(calendarIds: string[]) {
+  const startDate = moment().startOf("year").toDate();
+  const endDate = moment().endOf("year").toDate();
+  const events = await Calendar.getEventsAsync(calendarIds, startDate, endDate);
+
+  return events;
 }

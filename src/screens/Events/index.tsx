@@ -5,7 +5,7 @@ import * as Calendar from 'expo-calendar';
 
 import { styles } from './styles';
 import { Event } from '../../interfaces/Event';
-import { getEvents } from '../../services/diocesedesantos.api';
+import { getCalendarSavedEvents, getEvents } from '../../services/diocesedesantos.api';
 import { useCalendar } from '../../contexts/CalendarContext';
 import EventCard from '../../components/EventCard';
 import EmptyListComponent from '../../components/EmptyListComponent';
@@ -25,13 +25,15 @@ export default function Events() {
     const loadEvents = async () => {
         setIsLoading(true);
         const responseData = await getEvents();
+        const savedEvents = await getCalendarSavedEvents([calendar]);
+        const savedEventTitles = savedEvents.map(({title}) => title);
 
         const events = responseData.data.map(item => {
             const event: EventElement = {
                 id: item.id,
                 title: item.title,
                 date: new Date(item.start),
-                isAdded: false,
+                isAdded: savedEventTitles.includes(item.title),
             }
 
             return event;
